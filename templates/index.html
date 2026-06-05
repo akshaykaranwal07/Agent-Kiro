@@ -48,29 +48,67 @@
             font-weight: 600;
         }
 
-        .logo-name {
-            font-size: 15px;
-            font-weight: 600;
-            color: #111;
-        }
+        .logo-name { font-size: 15px; font-weight: 600; color: #111; }
 
-        .new-chat {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 10px;
-            border-radius: 8px;
+        .upload-area {
+            border: 1.5px dashed #d0d0d0;
+            border-radius: 10px;
+            padding: 16px 12px;
+            text-align: center;
             cursor: pointer;
-            font-size: 13px;
-            color: #555;
-            border: 1px solid #e0e0e0;
+            transition: all 0.15s;
             background: #fff;
             margin-top: 4px;
-            transition: all 0.15s;
         }
 
-        .new-chat:hover { background: #f0f0f0; }
-        .new-chat i { font-size: 15px; }
+        .upload-area:hover { border-color: #185FA5; background: #f0f6ff; }
+        .upload-area.dragover { border-color: #185FA5; background: #f0f6ff; }
+
+        .upload-area i { font-size: 22px; color: #bbb; margin-bottom: 6px; display: block; }
+        .upload-area p { font-size: 12px; color: #888; line-height: 1.5; }
+        .upload-area span { font-size: 11px; color: #bbb; }
+
+        #file-input { display: none; }
+
+        .pdf-info {
+            background: #fff;
+            border: 1px solid #e8e8e6;
+            border-radius: 8px;
+            padding: 10px 12px;
+            display: none;
+        }
+
+        .pdf-info.show { display: block; }
+
+        .pdf-info-name {
+            font-size: 12px;
+            font-weight: 500;
+            color: #111;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .pdf-info-meta { font-size: 11px; color: #aaa; margin-top: 2px; }
+
+        .progress-bar {
+            height: 3px;
+            background: #e8e8e6;
+            border-radius: 4px;
+            margin-top: 8px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .progress-bar.show { display: block; }
+
+        .progress-fill {
+            height: 100%;
+            background: #185FA5;
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.3s;
+        }
 
         .sidebar-section {
             font-size: 11px;
@@ -96,19 +134,10 @@
         .chat-item:hover { background: #ebebeb; color: #111; }
         .chat-item.active { background: #e8e8e6; color: #111; font-weight: 500; }
 
-        .sidebar-bottom {
-            margin-top: auto;
-            padding: 8px;
-        }
-
+        .sidebar-bottom { margin-top: auto; padding: 8px; }
         .sidebar-bottom p { font-size: 11px; color: #bbb; }
 
-        .main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
+        .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 
         .topbar {
             padding: 14px 24px;
@@ -118,12 +147,7 @@
             justify-content: space-between;
         }
 
-        .topbar-title {
-            font-size: 14px;
-            font-weight: 500;
-            color: #111;
-        }
-
+        .topbar-title { font-size: 14px; font-weight: 500; color: #111; }
         .topbar-right { display: flex; gap: 8px; }
 
         .icon-btn {
@@ -162,13 +186,24 @@
             padding-bottom: 80px;
         }
 
-        .empty h2 { font-size: 22px; font-weight: 600; color: #111; }
+        .empty-icon {
+            width: 52px;
+            height: 52px;
+            background: #f0f6ff;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-icon i { font-size: 24px; color: #185FA5; }
+        .empty h2 { font-size: 20px; font-weight: 600; color: #111; }
 
         .empty p {
             font-size: 14px;
             color: #999;
             text-align: center;
-            max-width: 360px;
+            max-width: 320px;
             line-height: 1.6;
         }
 
@@ -191,11 +226,7 @@
             transition: all 0.15s;
         }
 
-        .suggestion:hover {
-            border-color: #185FA5;
-            color: #185FA5;
-            background: #f0f6ff;
-        }
+        .suggestion:hover { border-color: #185FA5; color: #185FA5; background: #f0f6ff; }
 
         .msg { display: flex; flex-direction: column; gap: 4px; }
         .msg.user { align-items: flex-end; }
@@ -210,17 +241,8 @@
             white-space: pre-wrap;
         }
 
-        .user .bubble {
-            background: #185FA5;
-            color: #fff;
-            border-bottom-right-radius: 4px;
-        }
-
-        .assistant .bubble {
-            background: #f7f7f5;
-            color: #111;
-            border-bottom-left-radius: 4px;
-        }
+        .user .bubble { background: #185FA5; color: #fff; border-bottom-right-radius: 4px; }
+        .assistant .bubble { background: #f7f7f5; color: #111; border-bottom-left-radius: 4px; }
 
         .source-label {
             font-size: 11px;
@@ -245,14 +267,7 @@
             align-items: center;
         }
 
-        .dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: #ccc;
-            animation: bounce 1.2s infinite;
-        }
-
+        .dot { width: 5px; height: 5px; border-radius: 50%; background: #ccc; animation: bounce 1.2s infinite; }
         .dot:nth-child(2) { animation-delay: .2s; }
         .dot:nth-child(3) { animation-delay: .4s; }
 
@@ -278,10 +293,7 @@
             transition: border-color 0.15s;
         }
 
-        .input-wrap:focus-within {
-            border-color: #185FA5;
-            background: #fff;
-        }
+        .input-wrap:focus-within { border-color: #185FA5; background: #fff; }
 
         #q {
             flex: 1;
@@ -298,6 +310,7 @@
         }
 
         #q::placeholder { color: #bbb; }
+        #q:disabled { opacity: 0.5; }
 
         #send {
             width: 30px;
@@ -316,6 +329,14 @@
         #send:hover { background: #0C447C; }
         #send:disabled { background: #c5d8ee; cursor: not-allowed; }
         #send i { font-size: 14px; color: #fff; }
+
+        .status-msg {
+            font-size: 12px;
+            color: #185FA5;
+            text-align: center;
+            margin-top: 8px;
+            min-height: 16px;
+        }
     </style>
 </head>
 <body>
@@ -326,10 +347,23 @@
         <span class="logo-name">Kiro</span>
     </div>
 
-    <button class="new-chat" onclick="newChat()">
-        <i class="ti ti-edit"></i>
-        New chat
-    </button>
+    <!-- upload area -->
+    <div class="upload-area" onclick="document.getElementById('file-input').click()"
+         ondragover="handleDragOver(event)" ondrop="handleDrop(event)" ondragleave="handleDragLeave(event)">
+        <i class="ti ti-file-upload"></i>
+        <p>Upload your PDF</p>
+        <span>Click or drag and drop</span>
+    </div>
+    <input type="file" id="file-input" accept=".pdf" onchange="handleFileSelect(event)">
+
+    <!-- pdf info after upload -->
+    <div class="pdf-info" id="pdf-info">
+        <div class="pdf-info-name" id="pdf-name">—</div>
+        <div class="pdf-info-meta" id="pdf-meta">Processing...</div>
+        <div class="progress-bar" id="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+    </div>
 
     <div class="sidebar-section">Recent</div>
     <div class="chat-item active" id="current-chat">New conversation</div>
@@ -351,24 +385,21 @@
 
     <div id="chat-box">
         <div class="empty" id="empty">
-            <h2>What do you want to know?</h2>
-            <p>Ask about your notes or anything on the web</p>
-            <div class="suggestions">
-                <button class="suggestion" onclick="ask('What are the aspects of tenses?')">Aspects of tenses</button>
-                <button class="suggestion" onclick="ask('What is indefinite tense?')">Indefinite tense</button>
-                <button class="suggestion" onclick="ask('Who is the current PM of India?')">Current PM of India</button>
-                <button class="suggestion" onclick="ask('Difference between simple and continuous?')">Simple vs continuous</button>
-            </div>
+            <div class="empty-icon"><i class="ti ti-file-text"></i></div>
+            <h2>Upload a PDF to start</h2>
+            <p>Upload any PDF on the left — handwritten notes, textbooks, or documents — then ask anything about it</p>
         </div>
     </div>
 
     <div class="input-area">
         <div class="input-wrap">
-            <textarea id="q" placeholder="Ask anything..." onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-            <button id="send" onclick="sendMsg()">
+            <textarea id="q" placeholder="Upload a PDF first..." disabled
+                onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+            <button id="send" onclick="sendMsg()" disabled>
                 <i class="ti ti-arrow-up"></i>
             </button>
         </div>
+        <div class="status-msg" id="status-msg"></div>
     </div>
 </div>
 
@@ -378,7 +409,14 @@
     const btn         = document.getElementById('send');
     const title       = document.getElementById('chat-title');
     const currentChat = document.getElementById('current-chat');
+    const statusMsg   = document.getElementById('status-msg');
+    const pdfInfo     = document.getElementById('pdf-info');
+    const pdfName     = document.getElementById('pdf-name');
+    const pdfMeta     = document.getElementById('pdf-meta');
+    const progressBar = document.getElementById('progress-bar');
+    const progressFill= document.getElementById('progress-fill');
     let firstMsg      = true;
+    let pdfReady      = false;
 
     function autoResize(el) {
         el.style.height = '24px';
@@ -386,13 +424,87 @@
     }
 
     function handleKey(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMsg();
-        }
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
     }
 
-    function ask(q) { inp.value = q; sendMsg(); }
+    function handleDragOver(e) {
+        e.preventDefault();
+        e.currentTarget.classList.add('dragover');
+    }
+
+    function handleDragLeave(e) {
+        e.currentTarget.classList.remove('dragover');
+    }
+
+    function handleDrop(e) {
+        e.preventDefault();
+        e.currentTarget.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file && file.type === 'application/pdf') uploadFile(file);
+    }
+
+    function handleFileSelect(e) {
+        const file = e.target.files[0];
+        if (file) uploadFile(file);
+    }
+
+    async function uploadFile(file) {
+        pdfInfo.classList.add('show');
+        pdfName.textContent = file.name;
+        pdfMeta.textContent = 'Uploading...';
+        progressBar.classList.add('show');
+        progressFill.style.width = '10%';
+        statusMsg.textContent = 'Processing your PDF...';
+        inp.placeholder = 'Processing PDF...';
+
+        // animate progress
+        let progress = 10;
+        const interval = setInterval(() => {
+            progress = Math.min(progress + 2, 85);
+            progressFill.style.width = progress + '%';
+        }, 1000);
+
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const r = await fetch('/upload', { method: 'POST', body: formData });
+            const d = await r.json();
+
+            clearInterval(interval);
+
+            if (d.status === 'ready') {
+                progressFill.style.width = '100%';
+                pdfMeta.textContent = `${d.chunks} chunks ready`;
+                statusMsg.textContent = '';
+                inp.placeholder = 'Ask anything about your PDF...';
+                inp.disabled = false;
+                btn.disabled = false;
+                pdfReady = true;
+
+                // update empty state
+                document.getElementById('empty').innerHTML = `
+                    <div class="empty-icon"><i class="ti ti-circle-check"></i></div>
+                    <h2>Ready to chat</h2>
+                    <p>${file.name} is loaded — ask anything about it or anything on the web</p>
+                    <div class="suggestions">
+                        <button class="suggestion" onclick="ask('Summarize this document')">Summarize document</button>
+                        <button class="suggestion" onclick="ask('What are the main topics?')">Main topics</button>
+                        <button class="suggestion" onclick="ask('What are the key points?')">Key points</button>
+                    </div>`;
+
+            } else {
+                clearInterval(interval);
+                pdfMeta.textContent = 'Upload failed';
+                statusMsg.textContent = d.message || 'Something went wrong';
+            }
+
+        } catch(e) {
+            clearInterval(interval);
+            pdfMeta.textContent = 'Upload failed';
+            statusMsg.textContent = 'Could not process PDF';
+        }
+    }
 
     function removeEmpty() {
         const e = document.getElementById('empty');
@@ -403,24 +515,20 @@
         removeEmpty();
         const m = document.createElement('div');
         m.className = `msg ${role}`;
-
         const b = document.createElement('div');
         b.className = 'bubble';
         b.textContent = text;
         m.appendChild(b);
-
         if (role === 'assistant' && tool) {
             const s = document.createElement('div');
             s.className = 'source-label';
             s.innerHTML = tool === 'search_notes'
-                ? '<i class="ti ti-file-text"></i> from your notes'
+                ? '<i class="ti ti-file-text"></i> from your PDF'
                 : '<i class="ti ti-world"></i> from the web';
             m.appendChild(s);
         }
-
         box.appendChild(m);
         box.scrollTop = box.scrollHeight;
-
         if (firstMsg && role === 'user') {
             const t = text.length > 30 ? text.substring(0, 30) + '...' : text;
             title.textContent = t;
@@ -441,15 +549,12 @@
 
     async function sendMsg() {
         const q = inp.value.trim();
-        if (!q) return;
-
+        if (!q || !pdfReady) return;
         inp.value = '';
         inp.style.height = '24px';
         btn.disabled = true;
-
         addMsg('user', q);
         addTyping();
-
         try {
             const r = await fetch('/ask', {
                 method: 'POST',
@@ -463,7 +568,6 @@
             document.getElementById('typing')?.remove();
             addMsg('assistant', 'Something went wrong. Please try again.');
         }
-
         btn.disabled = false;
         inp.focus();
     }
@@ -473,20 +577,24 @@
         firstMsg = true;
         title.textContent = 'New conversation';
         currentChat.textContent = 'New conversation';
-        box.innerHTML = `
-            <div class="empty" id="empty">
-                <h2>What do you want to know?</h2>
-                <p>Ask about your notes or anything on the web</p>
+        box.innerHTML = pdfReady
+            ? `<div class="empty" id="empty">
+                <div class="empty-icon"><i class="ti ti-circle-check"></i></div>
+                <h2>Ready to chat</h2>
+                <p>Ask anything about your PDF or anything on the web</p>
                 <div class="suggestions">
-                    <button class="suggestion" onclick="ask('What are the aspects of tenses?')">Aspects of tenses</button>
-                    <button class="suggestion" onclick="ask('What is indefinite tense?')">Indefinite tense</button>
-                    <button class="suggestion" onclick="ask('Who is the current PM of India?')">Current PM of India</button>
-                    <button class="suggestion" onclick="ask('Difference between simple and continuous?')">Simple vs continuous</button>
-                </div>
-            </div>`;
+                    <button class="suggestion" onclick="ask('Summarize this document')">Summarize document</button>
+                    <button class="suggestion" onclick="ask('What are the main topics?')">Main topics</button>
+                    <button class="suggestion" onclick="ask('What are the key points?')">Key points</button>
+                </div></div>`
+            : `<div class="empty" id="empty">
+                <div class="empty-icon"><i class="ti ti-file-text"></i></div>
+                <h2>Upload a PDF to start</h2>
+                <p>Upload any PDF on the left — handwritten notes, textbooks, or documents — then ask anything about it</p>
+               </div>`;
     }
 
-    function newChat() { clearChat(); }
+    function ask(q) { inp.value = q; sendMsg(); }
 </script>
 
 </body>

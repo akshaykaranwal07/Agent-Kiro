@@ -4,9 +4,11 @@
 import chromadb
 from sentence_transformers import SentenceTransformer
 import os
-from config import EXTRACTED_DIR, CHROMA_PATH, COLLECTION_NAME, CHUNK_MIN_WORDS, CHUNK_MAX_WORDS
+from config import  CHROMA_PATH, CHUNK_MIN_WORDS, CHUNK_MAX_WORDS
 
-def load_extracted_text(extracted_dir=EXTRACTED_DIR):
+embedder = SentenceTransformer("all-MiniLM-L6-v2")
+
+def load_extracted_text(extracted_dir="extracted"):
     texts = []
     files = sorted(
         [f for f in os.listdir(extracted_dir)
@@ -70,17 +72,18 @@ def chunk_by_structure(text, page_name):
     return final_chunks
 
 
-def store_in_chromadb(all_texts):
+def store_in_chromadb(all_texts,collection_name):
     client = chromadb.PersistentClient(path=CHROMA_PATH)
 
     # fresh start
     try:
-        client.delete_collection(COLLECTION_NAME)
-        print(f"Deleted existing collection: {COLLECTION_NAME}")
+        client.delete_collection(collection_name)
+        print(f"Deleted existing collection: {collection_name}")
     except:
         pass
 
-    collection = client.create_collection(COLLECTION_NAME)
+    collection = client.create_collection(collection_name)
+
 
     print("Loading embedding model...")
     embedder = SentenceTransformer("all-MiniLM-L6-v2")
@@ -117,9 +120,9 @@ def store_in_chromadb(all_texts):
         metadatas=all_meta
     )
 
-    print(f"\nStored {len(all_chunks)} chunks in ChromaDB collection: '{COLLECTION_NAME}'")
+    print(f"\nStored {len(all_chunks)} chunks in ChromaDB collection: '{collection_name}'")
 
 
 if __name__ == "__main__":
     texts = load_extracted_text()
-    store_in_chromadb(texts)
+    store_in_chromadb(texts, "collection_name")

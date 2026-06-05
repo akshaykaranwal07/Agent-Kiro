@@ -5,7 +5,7 @@ import chromadb
 from sentence_transformers import SentenceTransformer
 from groq import Groq
 from dotenv import load_dotenv
-from config import CHROMA_PATH, COLLECTION_NAME, N_RESULTS, LLM_MODEL
+from config import CHROMA_PATH,  N_RESULTS, LLM_MODEL
 
 load_dotenv()
 
@@ -16,9 +16,9 @@ groq_client = Groq()
 print("Ready!\n")
 
 
-def query_rag(question):
+def query_rag(question, collection_name):
     client     = chromadb.PersistentClient(path=CHROMA_PATH)
-    collection = client.get_collection(COLLECTION_NAME)
+    collection = client.get_collection(collection_name)
 
     query_embedding = embedder.encode([question]).tolist()
 
@@ -56,8 +56,6 @@ def query_rag(question):
 
 
 if __name__ == "__main__":
-    print(f"RAG — chatting with: {COLLECTION_NAME}")
-    print("Type 'exit' to quit\n")
 
     while True:
         question = input("Ask a question: ").strip()

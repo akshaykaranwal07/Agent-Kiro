@@ -7,12 +7,12 @@ from dotenv import load_dotenv
 import base64
 import os
 import time
-from config import PDF_PATH, EXTRACTED_DIR, POPPLER_PATH, DPI, VISION_MODEL
+from config import  POPPLER_PATH, DPI, VISION_MODEL
 
 load_dotenv()
 client = Groq()
 
-def extract_text_from_pdf(pdf_path=PDF_PATH, output_dir=EXTRACTED_DIR):
+def extract_text_from_pdf(pdf_path, output_dir="extracted"):
     os.makedirs(output_dir, exist_ok=True)
 
     print(f"Converting PDF to images — {pdf_path}")
