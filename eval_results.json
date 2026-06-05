@@ -1,0 +1,72 @@
+[
+  {
+    "question": "What are the four aspects of tenses?",
+    "expected": "Indefinite, Continuous, Perfect, Perfect Continuous",
+    "actual": "The four aspects of tenses are:\n1. Indefinite: Permanent, frequently, General Info.\n2. Continuous: Temporary, Incomplete, on-going action\n3. Perfect: Completed action, degree of work done\n4. Perfect Continuous: Partially incomplete and partially complete action.",
+    "correct": true,
+    "reason": "Actual answer provides the four aspects with descriptions"
+  },
+  {
+    "question": "What is the indefinite aspect used for?",
+    "expected": "Permanent, frequently, general information",
+    "actual": "The indefinite aspect is used for permanent, frequently, and general information.",
+    "correct": true,
+    "reason": "minor wording difference"
+  },
+  {
+    "question": "What is the continuous aspect used for?",
+    "expected": "Temporary, incomplete, ongoing action",
+    "actual": "The Continuous aspect is used for temporary, incomplete, or on-going actions.",
+    "correct": true,
+    "reason": "minor wording differences"
+  },
+  {
+    "question": "What is the perfect aspect used for?",
+    "expected": "Completed action, degree of work done",
+    "actual": "The perfect aspect is used for a completed action, where the effect can be seen and there is no scope of improvement, indicating the degree of work done.",
+    "correct": true,
+    "reason": "minor wording differences"
+  },
+  {
+    "question": "What is perfect continuous aspect?",
+    "expected": "Partially incomplete and partially complete action",
+    "actual": "The perfect continuous aspect refers to an action that is partially incomplete and partially complete. It is represented by the formula: (have) + V^3, which translates to \"has/have been V'ing\" (e.g., has/have been doing). It describes an action that started in the past and continues up to the present moment.",
+    "correct": true,
+    "reason": "minor wording differences and extra information"
+  },
+  {
+    "question": "What is tense?",
+    "expected": "Time of action, state happening, possession or degree of an action",
+    "actual": "Tense refers to the time of action, state happening, possession, or degree of an action. It indicates when an action takes place, such as in the past, present, or future.",
+    "correct": true,
+    "reason": "minor wording differences"
+  },
+  {
+    "question": "What is the V2 past form of go?",
+    "expected": "went",
+    "actual": "The V2 past form of \"go\" is \"went\".",
+    "correct": true,
+    "reason": "minor wording differences"
+  },
+  {
+    "question": "What is the V3 perfect form of run?",
+    "expected": "run",
+    "actual": "The V3 (perfect form) of \"run\" is \"run\".",
+    "correct": true,
+    "reason": "minor wording differences"
+  },
+  {
+    "question": "What is the V4 continuous form of come?",
+    "expected": "coming",
+    "actual": "The V4 continuous form of \"come\" is \"coming\".",
+    "correct": true,
+    "reason": "minor wording difference"
+  },
+  {
+    "question": "What is the V5 singular form of explain?",
+    "expected": "explains",
+    "actual": "The table does not provide information about the V5 form. It only provides information about the base form, present form (y^1), past form (y^2), perfect form (y^3), continuous form (y^4), and singular form (y^s). Therefore, the V5 singular form of 'explain' is not available in the given context.",
+    "correct": false,
+    "reason": "actual says 'not available in the given context'"
+  }
+]
