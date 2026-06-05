@@ -63,27 +63,25 @@ Nothing else."""
         return "search_notes", "defaulting to notes search"
 
 
-def answer_question(question: str, context: str) -> str:
-    # build messages with full conversation history
+def answer_question(question: str, context: str, tool_used: str) -> str:
+    source = "the user's personal notes" if tool_used == "search_notes" else "web search results"
+
     messages = [
         {
             "role": "system",
-            "content": """You are a helpful assistant with memory of the conversation.
-            Answer based on provided context and conversation history.
+            "content": f"""You are a helpful assistant.
+            Answer based only on the provided context from {source}.
             - Be concise and accurate
-            - Reference previous questions if relevant
-            - If context is from notes, reference it naturally
-            - If answer isn't in context, say so clearly"""
+            - If answer isn't in context, say so clearly
+            - Do not mix information from different sources"""
         }
     ]
 
-    # add conversation history
     messages.extend(conversation_history)
 
-    # add current question with context
     messages.append({
         "role": "user",
-        "content": f"Context:\n{context}\n\nQuestion: {question}"
+        "content": f"Context from {source}:\n{context}\n\nQuestion: {question}"
     })
 
     response = client.chat.completions.create(
@@ -109,7 +107,7 @@ def run_agent(question: str) -> str:
     context = tool_fn(question)
 
     # step 3 — generate answer
-    answer = answer_question(question, context)
+    answer = answer_question(question, context,tool_name)
 
     # step 4 — save to history
     conversation_history.append({"role": "user", "content": question})
@@ -119,7 +117,7 @@ def run_agent(question: str) -> str:
     if len(conversation_history) > 20:
         conversation_history = conversation_history[-20:]
 
-    return answer
+    return answer,tool_name
 
 
 if __name__ == "__main__":

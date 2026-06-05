@@ -1,6 +1,6 @@
 import chromadb
 from sentence_transformers import SentenceTransformer
-from duckduckgo_search import DDGS
+from ddgs import DDGS
 from config import CHROMA_PATH, COLLECTION_NAME, N_RESULTS
 
 # load embedding model once
