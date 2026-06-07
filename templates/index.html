@@ -17,144 +17,185 @@
             overflow: hidden;
         }
 
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.3);
+            z-index: 99;
+        }
+        .overlay.show { display: block; }
+
         .sidebar {
-            width: 240px;
-            background: #f7f7f5;
-            border-right: 1px solid #e8e8e6;
+            width: 256px;
+            background: #f9f9f7;
+            border-right: 0.5px solid #e8e8e6;
             display: flex;
             flex-direction: column;
-            padding: 16px 12px;
-            gap: 8px;
+            padding: 12px 8px;
+            gap: 4px;
             flex-shrink: 0;
+            z-index: 100;
+            transition: transform 0.25s ease;
         }
 
-        .logo {
+        .sidebar-top {
+            padding: 8px;
+            margin-bottom: 4px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px;
+            justify-content: space-between;
         }
 
-        .logo-mark {
-            width: 26px;
-            height: 26px;
-            background: #185FA5;
-            border-radius: 7px;
+        .brand {
+            font-size: 16px;
+            font-weight: 500;
+            color: #111;
+            letter-spacing: -0.3px;
+        }
+
+        .new-btn {
+            width: 28px;
+            height: 28px;
+            border: 0.5px solid #e0e0e0;
+            border-radius: 6px;
+            background: #fff;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #fff;
-            font-size: 12px;
-            font-weight: 600;
+            color: #666;
+            transition: all 0.15s;
         }
+        .new-btn:hover { background: #f0f0f0; color: #111; }
+        .new-btn i { font-size: 14px; }
 
-        .logo-name { font-size: 15px; font-weight: 600; color: #111; }
-
-        .upload-area {
-            border: 1.5px dashed #d0d0d0;
+        .upload-zone {
+            margin: 4px 0;
+            border: 1.5px dashed #ddd;
             border-radius: 10px;
-            padding: 16px 12px;
+            padding: 20px 12px;
             text-align: center;
             cursor: pointer;
             transition: all 0.15s;
             background: #fff;
-            margin-top: 4px;
         }
+        .upload-zone:hover { border-color: #185FA5; background: #f0f6ff; }
+        .upload-zone.dragover { border-color: #185FA5; background: #f0f6ff; }
+        .upload-zone i { font-size: 20px; color: #bbb; display: block; margin-bottom: 6px; }
+        .upload-zone p { font-size: 12px; color: #888; font-weight: 500; }
+        .upload-zone span { font-size: 11px; color: #bbb; }
 
-        .upload-area:hover { border-color: #185FA5; background: #f0f6ff; }
-        .upload-area.dragover { border-color: #185FA5; background: #f0f6ff; }
-
-        .upload-area i { font-size: 22px; color: #bbb; margin-bottom: 6px; display: block; }
-        .upload-area p { font-size: 12px; color: #888; line-height: 1.5; }
-        .upload-area span { font-size: 11px; color: #bbb; }
-
-        #file-input { display: none; }
-
-        .pdf-info {
+        .pdf-card {
             background: #fff;
-            border: 1px solid #e8e8e6;
+            border: 0.5px solid #e8e8e6;
             border-radius: 8px;
             padding: 10px 12px;
             display: none;
+            margin: 4px 0;
         }
+        .pdf-card.show { display: block; }
 
-        .pdf-info.show { display: block; }
-
-        .pdf-info-name {
+        .pdf-card-name {
             font-size: 12px;
             font-weight: 500;
             color: #111;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
+        .pdf-card-name i { font-size: 14px; color: #185FA5; flex-shrink: 0; }
 
-        .pdf-info-meta { font-size: 11px; color: #aaa; margin-top: 2px; }
+        .pdf-card-meta { font-size: 11px; color: #aaa; margin-top: 3px; }
 
-        .progress-bar {
-            height: 3px;
-            background: #e8e8e6;
-            border-radius: 4px;
+        .prog {
+            height: 2px;
+            background: #eee;
+            border-radius: 2px;
             margin-top: 8px;
-            overflow: hidden;
             display: none;
         }
-
-        .progress-bar.show { display: block; }
-
-        .progress-fill {
+        .prog.show { display: block; }
+        .prog-fill {
             height: 100%;
             background: #185FA5;
-            border-radius: 4px;
+            border-radius: 2px;
             width: 0%;
             transition: width 0.3s;
         }
 
-        .sidebar-section {
+        .section-label {
             font-size: 11px;
-            color: #aaa;
-            padding: 8px 10px 4px;
+            color: #bbb;
+            padding: 8px 8px 4px;
             font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
         .chat-item {
-            padding: 8px 10px;
-            border-radius: 8px;
+            padding: 7px 10px;
+            border-radius: 7px;
             cursor: pointer;
             font-size: 13px;
             color: #555;
-            transition: all 0.15s;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            transition: all 0.15s;
         }
-
         .chat-item:hover { background: #ebebeb; color: #111; }
         .chat-item.active { background: #e8e8e6; color: #111; font-weight: 500; }
 
-        .sidebar-bottom { margin-top: auto; padding: 8px; }
-        .sidebar-bottom p { font-size: 11px; color: #bbb; }
+        .sidebar-footer { margin-top: auto; padding: 8px; font-size: 11px; color: #ccc; }
 
-        .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+        .mob-header {
+            display: none;
+            padding: 12px 16px;
+            border-bottom: 0.5px solid #f0f0f0;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            flex-shrink: 0;
+        }
+
+        .mob-brand { font-size: 15px; font-weight: 500; color: #111; letter-spacing: -0.3px; }
+
+        .hamburger {
+            width: 30px;
+            height: 30px;
+            border: 0.5px solid #e8e8e8;
+            border-radius: 7px;
+            background: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+        }
+        .hamburger i { font-size: 15px; }
 
         .topbar {
-            padding: 14px 24px;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 12px 20px;
+            border-bottom: 0.5px solid #f0f0f0;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-shrink: 0;
         }
 
-        .topbar-title { font-size: 14px; font-weight: 500; color: #111; }
-        .topbar-right { display: flex; gap: 8px; }
+        .topbar-title { font-size: 13px; color: #888; }
 
         .icon-btn {
-            width: 30px;
-            height: 30px;
-            border-radius: 7px;
-            border: 1px solid #e8e8e8;
+            width: 28px;
+            height: 28px;
+            border: 0.5px solid #e8e8e8;
+            border-radius: 6px;
             background: #fff;
             cursor: pointer;
             display: flex;
@@ -163,17 +204,16 @@
             color: #888;
             transition: all 0.15s;
         }
-
         .icon-btn:hover { background: #f5f5f5; color: #111; }
-        .icon-btn i { font-size: 15px; }
+        .icon-btn i { font-size: 14px; }
 
         #chat-box {
             flex: 1;
             overflow-y: auto;
-            padding: 28px 48px;
+            padding: 32px 20%;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 20px;
         }
 
         .empty {
@@ -182,28 +222,17 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            padding-bottom: 80px;
+            gap: 16px;
+            padding-bottom: 60px;
         }
 
-        .empty-icon {
-            width: 52px;
-            height: 52px;
-            background: #f0f6ff;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .empty-icon i { font-size: 24px; color: #185FA5; }
-        .empty h2 { font-size: 20px; font-weight: 600; color: #111; }
+        .empty h2 { font-size: 24px; font-weight: 500; color: #111; letter-spacing: -0.5px; }
 
         .empty p {
             font-size: 14px;
             color: #999;
             text-align: center;
-            max-width: 320px;
+            max-width: 340px;
             line-height: 1.6;
         }
 
@@ -212,20 +241,19 @@
             flex-wrap: wrap;
             gap: 8px;
             justify-content: center;
-            margin-top: 8px;
+            margin-top: 4px;
         }
 
         .suggestion {
             font-size: 13px;
-            padding: 8px 16px;
+            padding: 8px 14px;
             border-radius: 20px;
-            border: 1px solid #e0e0e0;
+            border: 0.5px solid #e0e0e0;
             color: #555;
             background: #fff;
             cursor: pointer;
             transition: all 0.15s;
         }
-
         .suggestion:hover { border-color: #185FA5; color: #185FA5; background: #f0f6ff; }
 
         .msg { display: flex; flex-direction: column; gap: 4px; }
@@ -233,16 +261,17 @@
         .msg.assistant { align-items: flex-start; }
 
         .bubble {
-            padding: 12px 18px;
-            border-radius: 18px;
+            padding: 12px 16px;
+            border-radius: 16px;
             font-size: 14px;
             line-height: 1.75;
-            max-width: 75%;
+            max-width: 80%;
             white-space: pre-wrap;
+            word-break: break-word;
         }
 
         .user .bubble { background: #185FA5; color: #fff; border-bottom-right-radius: 4px; }
-        .assistant .bubble { background: #f7f7f5; color: #111; border-bottom-left-radius: 4px; }
+        .assistant .bubble { background: #f5f5f3; color: #111; border-bottom-left-radius: 4px; }
 
         .source-label {
             font-size: 11px;
@@ -252,22 +281,20 @@
             align-items: center;
             gap: 4px;
         }
-
         .source-label i { font-size: 12px; }
 
         .typing-wrap { display: flex; }
-
         .typing {
-            padding: 12px 18px;
-            background: #f7f7f5;
-            border-radius: 18px;
+            padding: 12px 16px;
+            background: #f5f5f3;
+            border-radius: 16px;
             border-bottom-left-radius: 4px;
             display: flex;
             gap: 5px;
             align-items: center;
         }
 
-        .dot { width: 5px; height: 5px; border-radius: 50%; background: #ccc; animation: bounce 1.2s infinite; }
+        .dot { width: 4px; height: 4px; border-radius: 50%; background: #ccc; animation: bounce 1.2s infinite; }
         .dot:nth-child(2) { animation-delay: .2s; }
         .dot:nth-child(3) { animation-delay: .4s; }
 
@@ -277,22 +304,22 @@
         }
 
         .input-area {
-            padding: 16px 48px 24px;
+            padding: 12px 20% 24px;
             background: #fff;
-            border-top: 1px solid #f0f0f0;
+            border-top: 0.5px solid #f0f0f0;
+            flex-shrink: 0;
         }
 
         .input-wrap {
-            background: #f7f7f5;
-            border: 1px solid #e8e8e6;
+            background: #f9f9f7;
+            border: 0.5px solid #e8e8e6;
             border-radius: 14px;
-            padding: 12px 16px;
+            padding: 10px 14px;
             display: flex;
             gap: 10px;
             align-items: flex-end;
             transition: border-color 0.15s;
         }
-
         .input-wrap:focus-within { border-color: #185FA5; background: #fff; }
 
         #q {
@@ -308,16 +335,15 @@
             max-height: 120px;
             line-height: 1.6;
         }
-
         #q::placeholder { color: #bbb; }
-        #q:disabled { opacity: 0.5; }
+        #q:disabled { opacity: 0.4; }
 
         #send {
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             background: #185FA5;
             border: none;
-            border-radius: 8px;
+            border-radius: 7px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -325,58 +351,88 @@
             transition: background 0.15s;
             flex-shrink: 0;
         }
-
         #send:hover { background: #0C447C; }
         #send:disabled { background: #c5d8ee; cursor: not-allowed; }
-        #send i { font-size: 14px; color: #fff; }
+        #send i { font-size: 13px; color: #fff; }
 
         .status-msg {
-            font-size: 12px;
+            font-size: 11px;
             color: #185FA5;
             text-align: center;
-            margin-top: 8px;
-            min-height: 16px;
+            margin-top: 6px;
+            min-height: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                transform: translateX(-100%);
+                box-shadow: 4px 0 20px rgba(0,0,0,0.08);
+            }
+            .sidebar.open { transform: translateX(0); }
+            .mob-header { display: flex; }
+            .topbar { display: none; }
+            #chat-box { padding: 20px 16px; }
+            .input-area { padding: 12px 16px 20px; }
+            .bubble { max-width: 90%; }
+            .empty h2 { font-size: 20px; }
         }
     </style>
 </head>
 <body>
 
-<div class="sidebar">
-    <div class="logo">
-        <div class="logo-mark">K</div>
-        <span class="logo-name">Kiro</span>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-top">
+        <span class="brand">kiro</span>
+        <button class="new-btn" onclick="newChat()" title="New chat">
+            <i class="ti ti-edit"></i>
+        </button>
     </div>
 
-    <!-- upload area -->
-    <div class="upload-area" onclick="document.getElementById('file-input').click()"
-         ondragover="handleDragOver(event)" ondrop="handleDrop(event)" ondragleave="handleDragLeave(event)">
+    <div class="upload-zone"
+         onclick="document.getElementById('file-input').click()"
+         ondragover="handleDragOver(event)"
+         ondrop="handleDrop(event)"
+         ondragleave="handleDragLeave(event)">
         <i class="ti ti-file-upload"></i>
-        <p>Upload your PDF</p>
+        <p>Upload PDF</p>
         <span>Click or drag and drop</span>
     </div>
     <input type="file" id="file-input" accept=".pdf" onchange="handleFileSelect(event)">
 
-    <!-- pdf info after upload -->
-    <div class="pdf-info" id="pdf-info">
-        <div class="pdf-info-name" id="pdf-name">—</div>
-        <div class="pdf-info-meta" id="pdf-meta">Processing...</div>
-        <div class="progress-bar" id="progress-bar">
-            <div class="progress-fill" id="progress-fill"></div>
+    <div class="pdf-card" id="pdf-info">
+        <div class="pdf-card-name">
+            <i class="ti ti-file-text"></i>
+            <span id="pdf-name">—</span>
+        </div>
+        <div class="pdf-card-meta" id="pdf-meta">Processing...</div>
+        <div class="prog" id="progress-bar">
+            <div class="prog-fill" id="progress-fill"></div>
         </div>
     </div>
 
-    <div class="sidebar-section">Recent</div>
+    <div class="section-label">Recent</div>
     <div class="chat-item active" id="current-chat">New conversation</div>
 
-    <div class="sidebar-bottom">
-        <p>Kiro — notes + web</p>
-    </div>
+    <div class="sidebar-footer">kiro · notes + web</div>
 </div>
 
 <div class="main">
+    <div class="mob-header">
+        <span class="mob-brand">kiro</span>
+        <button class="hamburger" onclick="toggleSidebar()">
+            <i class="ti ti-menu-2"></i>
+        </button>
+    </div>
+
     <div class="topbar">
         <span class="topbar-title" id="chat-title">New conversation</span>
-        <div class="topbar-right">
+        <div style="display:flex;gap:8px">
             <button class="icon-btn" onclick="clearChat()" title="Clear chat">
                 <i class="ti ti-trash"></i>
             </button>
@@ -385,17 +441,23 @@
 
     <div id="chat-box">
         <div class="empty" id="empty">
-            <div class="empty-icon"><i class="ti ti-file-text"></i></div>
-            <h2>Upload a PDF to start</h2>
-            <p>Upload any PDF on the left — handwritten notes, textbooks, or documents — then ask anything about it</p>
+            <h2>What can I help with?</h2>
+            <p>Upload a PDF from the sidebar or ask anything on the web</p>
+            <div class="suggestions">
+                <button class="suggestion" onclick="ask('Summarize this document')">Summarize document</button>
+                <button class="suggestion" onclick="ask('What are the main topics?')">Main topics</button>
+                <button class="suggestion" onclick="ask('Who is the current PM of India?')">Current PM of India</button>
+                <button class="suggestion" onclick="ask('What are the key points?')">Key points</button>
+            </div>
         </div>
     </div>
 
     <div class="input-area">
         <div class="input-wrap">
-            <textarea id="q" placeholder="Upload a PDF first..." disabled
-                onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-            <button id="send" onclick="sendMsg()" disabled>
+            <textarea id="q" placeholder="Ask anything..."
+                onkeydown="handleKey(event)"
+                oninput="autoResize(this)"></textarea>
+            <button id="send" onclick="sendMsg()">
                 <i class="ti ti-arrow-up"></i>
             </button>
         </div>
@@ -404,19 +466,19 @@
 </div>
 
 <script>
-    const box         = document.getElementById('chat-box');
-    const inp         = document.getElementById('q');
-    const btn         = document.getElementById('send');
-    const title       = document.getElementById('chat-title');
-    const currentChat = document.getElementById('current-chat');
-    const statusMsg   = document.getElementById('status-msg');
-    const pdfInfo     = document.getElementById('pdf-info');
-    const pdfName     = document.getElementById('pdf-name');
-    const pdfMeta     = document.getElementById('pdf-meta');
-    const progressBar = document.getElementById('progress-bar');
-    const progressFill= document.getElementById('progress-fill');
-    let firstMsg      = true;
-    let pdfReady      = false;
+    const box          = document.getElementById('chat-box');
+    const inp          = document.getElementById('q');
+    const btn          = document.getElementById('send');
+    const title        = document.getElementById('chat-title');
+    const currentChat  = document.getElementById('current-chat');
+    const statusMsg    = document.getElementById('status-msg');
+    const pdfInfo      = document.getElementById('pdf-info');
+    const pdfNameEl    = document.getElementById('pdf-name');
+    const pdfMeta      = document.getElementById('pdf-meta');
+    const progressBar  = document.getElementById('progress-bar');
+    const progressFill = document.getElementById('progress-fill');
+    let firstMsg       = true;
+    let pdfReady       = false;
 
     function autoResize(el) {
         el.style.height = '24px';
@@ -425,6 +487,16 @@
 
     function handleKey(e) {
         if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
+    }
+
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('overlay').classList.toggle('show');
+    }
+
+    function closeSidebar() {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('overlay').classList.remove('show');
     }
 
     function handleDragOver(e) {
@@ -439,25 +511,27 @@
     function handleDrop(e) {
         e.preventDefault();
         e.currentTarget.classList.remove('dragover');
-        const file = e.dataTransfer.files[0];
-        if (file && file.type === 'application/pdf') uploadFile(file);
+        const f = e.dataTransfer.files[0];
+        if (f && f.type === 'application/pdf') uploadFile(f);
     }
 
     function handleFileSelect(e) {
-        const file = e.target.files[0];
-        if (file) uploadFile(file);
+        const f = e.target.files[0];
+        if (f) uploadFile(f);
+        closeSidebar();
     }
 
     async function uploadFile(file) {
         pdfInfo.classList.add('show');
-        pdfName.textContent = file.name;
+        pdfNameEl.textContent = file.name;
         pdfMeta.textContent = 'Uploading...';
         progressBar.classList.add('show');
         progressFill.style.width = '10%';
         statusMsg.textContent = 'Processing your PDF...';
         inp.placeholder = 'Processing PDF...';
+        inp.disabled = true;
+        btn.disabled = true;
 
-        // animate progress
         let progress = 10;
         const interval = setInterval(() => {
             progress = Math.min(progress + 2, 85);
@@ -467,42 +541,39 @@
         try {
             const formData = new FormData();
             formData.append('file', file);
-
             const r = await fetch('/upload', { method: 'POST', body: formData });
             const d = await r.json();
-
             clearInterval(interval);
 
             if (d.status === 'ready') {
                 progressFill.style.width = '100%';
-                pdfMeta.textContent = `${d.chunks} chunks ready`;
+                pdfMeta.textContent = d.chunks + ' chunks ready';
                 statusMsg.textContent = '';
                 inp.placeholder = 'Ask anything about your PDF...';
                 inp.disabled = false;
                 btn.disabled = false;
                 pdfReady = true;
 
-                // update empty state
                 document.getElementById('empty').innerHTML = `
-                    <div class="empty-icon"><i class="ti ti-circle-check"></i></div>
-                    <h2>Ready to chat</h2>
-                    <p>${file.name} is loaded — ask anything about it or anything on the web</p>
+                    <h2>What do you want to know?</h2>
+                    <p>${file.name} is ready — ask anything about it or the web</p>
                     <div class="suggestions">
-                        <button class="suggestion" onclick="ask('Summarize this document')">Summarize document</button>
+                        <button class="suggestion" onclick="ask('Summarize this document')">Summarize</button>
                         <button class="suggestion" onclick="ask('What are the main topics?')">Main topics</button>
                         <button class="suggestion" onclick="ask('What are the key points?')">Key points</button>
                     </div>`;
-
             } else {
-                clearInterval(interval);
                 pdfMeta.textContent = 'Upload failed';
                 statusMsg.textContent = d.message || 'Something went wrong';
+                inp.disabled = false;
+                btn.disabled = false;
             }
-
         } catch(e) {
             clearInterval(interval);
             pdfMeta.textContent = 'Upload failed';
             statusMsg.textContent = 'Could not process PDF';
+            inp.disabled = false;
+            btn.disabled = false;
         }
     }
 
@@ -549,7 +620,7 @@
 
     async function sendMsg() {
         const q = inp.value.trim();
-        if (!q || !pdfReady) return;
+        if (!q) return;
         inp.value = '';
         inp.style.height = '24px';
         btn.disabled = true;
@@ -579,21 +650,25 @@
         currentChat.textContent = 'New conversation';
         box.innerHTML = pdfReady
             ? `<div class="empty" id="empty">
-                <div class="empty-icon"><i class="ti ti-circle-check"></i></div>
-                <h2>Ready to chat</h2>
-                <p>Ask anything about your PDF or anything on the web</p>
+                <h2>What do you want to know?</h2>
+                <p>Ask anything about your PDF or the web</p>
                 <div class="suggestions">
-                    <button class="suggestion" onclick="ask('Summarize this document')">Summarize document</button>
+                    <button class="suggestion" onclick="ask('Summarize this document')">Summarize</button>
                     <button class="suggestion" onclick="ask('What are the main topics?')">Main topics</button>
                     <button class="suggestion" onclick="ask('What are the key points?')">Key points</button>
                 </div></div>`
             : `<div class="empty" id="empty">
-                <div class="empty-icon"><i class="ti ti-file-text"></i></div>
-                <h2>Upload a PDF to start</h2>
-                <p>Upload any PDF on the left — handwritten notes, textbooks, or documents — then ask anything about it</p>
-               </div>`;
+                <h2>What can I help with?</h2>
+                <p>Upload a PDF from the sidebar or ask anything on the web</p>
+                <div class="suggestions">
+                    <button class="suggestion" onclick="ask('Summarize this document')">Summarize document</button>
+                    <button class="suggestion" onclick="ask('What are the main topics?')">Main topics</button>
+                    <button class="suggestion" onclick="ask('Who is the current PM of India?')">Current PM of India</button>
+                    <button class="suggestion" onclick="ask('What are the key points?')">Key points</button>
+                </div></div>`;
     }
 
+    function newChat() { clearChat(); }
     function ask(q) { inp.value = q; sendMsg(); }
 </script>
 
