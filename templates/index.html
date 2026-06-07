@@ -363,6 +363,10 @@
             min-height: 14px;
         }
 
+
+.attach-btn{width:32px;height:32px;border:0;background:transparent;border-radius:50%;cursor:pointer;color:#666;display:flex;align-items:center;justify-content:center;flex-shrink:0}.attach-btn:hover{background:#eee;color:#111}
+#attachment-preview{max-width:760px;margin:0 auto 8px}.pdf-chip{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e8e8e6;padding:8px 12px;border-radius:14px;font-size:13px;width:fit-content;max-width:100%}.pdf-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pdf-chip button{border:0;background:transparent;cursor:pointer;color:#777}
+
         @media (max-width: 768px) {
             .sidebar {
                 position: fixed;
@@ -392,28 +396,6 @@
         <button class="new-btn" onclick="newChat()" title="New chat">
             <i class="ti ti-edit"></i>
         </button>
-    </div>
-
-    <div class="upload-zone"
-         onclick="document.getElementById('file-input').click()"
-         ondragover="handleDragOver(event)"
-         ondrop="handleDrop(event)"
-         ondragleave="handleDragLeave(event)">
-        <i class="ti ti-file-upload"></i>
-        <p>Upload PDF</p>
-        <span>Click or drag and drop</span>
-    </div>
-    <input type="file" id="file-input" accept=".pdf" onchange="handleFileSelect(event)">
-
-    <div class="pdf-card" id="pdf-info">
-        <div class="pdf-card-name">
-            <i class="ti ti-file-text"></i>
-            <span id="pdf-name">—</span>
-        </div>
-        <div class="pdf-card-meta" id="pdf-meta">Processing...</div>
-        <div class="prog" id="progress-bar">
-            <div class="prog-fill" id="progress-fill"></div>
-        </div>
     </div>
 
     <div class="section-label">Recent</div>
@@ -453,14 +435,19 @@
     </div>
 
     <div class="input-area">
+        <div id="attachment-preview"></div>
         <div class="input-wrap">
-            <textarea id="q" placeholder="Ask anything..."
+            <button class="attach-btn" onclick="openFilePicker()" title="Upload PDF">
+                <i class="ti ti-plus"></i>
+            </button>
+            <textarea id="q" placeholder="Message kiro..."
                 onkeydown="handleKey(event)"
                 oninput="autoResize(this)"></textarea>
             <button id="send" onclick="sendMsg()">
                 <i class="ti ti-arrow-up"></i>
             </button>
         </div>
+        <input type="file" id="file-input" accept=".pdf" hidden>
         <div class="status-msg" id="status-msg"></div>
     </div>
 </div>
@@ -641,6 +628,23 @@
         }
         btn.disabled = false;
         inp.focus();
+    }
+
+
+    function openFilePicker(){ document.getElementById('file-input').click(); }
+
+    document.getElementById('file-input').addEventListener('change', function(e){
+        const f=e.target.files[0];
+        if(f) {
+            document.getElementById('attachment-preview').innerHTML = `<div class="pdf-chip"><i class="ti ti-file-text"></i><span>${f.name}</span><button onclick="removePDF()">×</button></div>`;
+            uploadFile(f);
+        }
+    });
+
+    function removePDF(){
+        document.getElementById('attachment-preview').innerHTML='';
+        pdfReady=false;
+        document.getElementById('file-input').value='';
     }
 
     async function clearChat() {
