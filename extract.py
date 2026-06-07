@@ -68,10 +68,14 @@ def extract_text_from_pdf(pdf_path, output_dir="extracted"):
 
         time.sleep(4)
 
+    page_count = len(doc)
     doc.close()
-    print(f"\nDone! {len(doc)} pages extracted.")
+    print(f"\nDone! {page_count} pages extracted.")
+    
     return all_text
 
 
 if __name__ == "__main__":
-    extract_text_from_pdf("data/notes.pdf")
+    import sys
+    pdf = sys.argv[1] if len(sys.argv) > 1 else "data/notes.pdf"
+    extract_text_from_pdf(pdf)
