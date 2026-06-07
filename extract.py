@@ -5,9 +5,12 @@ import time
 from groq import Groq
 from dotenv import load_dotenv
 from config import VISION_MODEL
+from google import genai
 
 load_dotenv()
-client = Groq()
+#client = Groq()
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+
 
 def extract_text_from_pdf(pdf_path, output_dir="extracted"):
     os.makedirs(output_dir, exist_ok=True)
@@ -71,7 +74,7 @@ def extract_text_from_pdf(pdf_path, output_dir="extracted"):
     page_count = len(doc)
     doc.close()
     print(f"\nDone! {page_count} pages extracted.")
-    
+
     return all_text
 
 

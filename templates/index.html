@@ -384,6 +384,70 @@
             .bubble { max-width: 90%; }
             .empty h2 { font-size: 20px; }
         }
+
+        .upload-status{
+    display:none;
+    margin-bottom:10px;
+    background:#fff;
+    border:1px solid #e8e8e6;
+    border-radius:14px;
+    padding:10px 12px;
+}
+
+
+.upload-status.show{
+    display:block;
+}
+
+
+.upload-row{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+
+.upload-row i{
+    color:#185FA5;
+    font-size:20px;
+}
+
+
+.upload-info{
+    flex:1;
+}
+
+
+#upload-name{
+    font-size:13px;
+    font-weight:500;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+
+.upload-bar{
+    height:4px;
+    background:#eee;
+    border-radius:10px;
+    margin-top:7px;
+    overflow:hidden;
+}
+
+
+#upload-progress{
+    height:100%;
+    width:0%;
+    background:#185FA5;
+    transition:.3s;
+}
+
+
+#upload-text{
+    color:#888;
+    font-size:11px;
+}
     </style>
 </head>
 <body>
@@ -436,17 +500,24 @@
 
     <div class="input-area">
         <div id="attachment-preview"></div>
-        <div class="input-wrap">
-            <button class="attach-btn" onclick="openFilePicker()" title="Upload PDF">
-                <i class="ti ti-plus"></i>
-            </button>
-            <textarea id="q" placeholder="Message kiro..."
-                onkeydown="handleKey(event)"
-                oninput="autoResize(this)"></textarea>
-            <button id="send" onclick="sendMsg()">
-                <i class="ti ti-arrow-up"></i>
-            </button>
+
+<div id="upload-status" class="upload-status">
+    <div class="upload-row">
+        <i class="ti ti-file-text"></i>
+
+        <div class="upload-info">
+            <div id="upload-name">Uploading...</div>
+
+            <div class="upload-bar">
+                <div id="upload-progress"></div>
+            </div>
+
+            <small id="upload-text">
+                Processing PDF
+            </small>
         </div>
+    </div>
+</div>
         <input type="file" id="file-input" accept=".pdf" hidden>
         <div class="status-msg" id="status-msg"></div>
     </div>

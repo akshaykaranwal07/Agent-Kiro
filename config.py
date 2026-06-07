@@ -15,4 +15,5 @@ CHUNK_MIN_WORDS = 10
 CHUNK_MAX_WORDS = 200
 N_RESULTS       = 5
 LLM_MODEL       = "llama-3.3-70b-versatile"
-VISION_MODEL    = "meta-llama/llama-4-scout-17b-16e-instruct"
+#VISION_MODEL    = "meta-llama/llama-4-scout-17b-16e-instruct"
+VISION_MODEL    = "gemini-3.5-flash"  # gemini for vision

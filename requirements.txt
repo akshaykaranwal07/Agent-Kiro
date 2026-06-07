@@ -1,7 +1,7 @@
 groq
 chromadb
 sentence-transformers
-
+google-genai
 pytesseract
 python-dotenv
 pillow
