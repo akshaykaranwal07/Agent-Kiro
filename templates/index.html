@@ -26,6 +26,7 @@
         }
         .overlay.show { display: block; }
 
+        /* ── Sidebar ── */
         .sidebar {
             width: 256px;
             background: #f9f9f7;
@@ -47,89 +48,23 @@
             justify-content: space-between;
         }
 
-        .brand {
-            font-size: 16px;
-            font-weight: 500;
-            color: #111;
-            letter-spacing: -0.3px;
-        }
+        .brand { font-size: 16px; font-weight: 500; color: #111; letter-spacing: -0.3px; }
 
         .new-btn {
-            width: 28px;
-            height: 28px;
+            width: 28px; height: 28px;
             border: 0.5px solid #e0e0e0;
             border-radius: 6px;
             background: #fff;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             color: #666;
             transition: all 0.15s;
         }
         .new-btn:hover { background: #f0f0f0; color: #111; }
         .new-btn i { font-size: 14px; }
 
-        .upload-zone {
-            margin: 4px 0;
-            border: 1.5px dashed #ddd;
-            border-radius: 10px;
-            padding: 20px 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.15s;
-            background: #fff;
-        }
-        .upload-zone:hover { border-color: #185FA5; background: #f0f6ff; }
-        .upload-zone.dragover { border-color: #185FA5; background: #f0f6ff; }
-        .upload-zone i { font-size: 20px; color: #bbb; display: block; margin-bottom: 6px; }
-        .upload-zone p { font-size: 12px; color: #888; font-weight: 500; }
-        .upload-zone span { font-size: 11px; color: #bbb; }
-
-        .pdf-card {
-            background: #fff;
-            border: 0.5px solid #e8e8e6;
-            border-radius: 8px;
-            padding: 10px 12px;
-            display: none;
-            margin: 4px 0;
-        }
-        .pdf-card.show { display: block; }
-
-        .pdf-card-name {
-            font-size: 12px;
-            font-weight: 500;
-            color: #111;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .pdf-card-name i { font-size: 14px; color: #185FA5; flex-shrink: 0; }
-
-        .pdf-card-meta { font-size: 11px; color: #aaa; margin-top: 3px; }
-
-        .prog {
-            height: 2px;
-            background: #eee;
-            border-radius: 2px;
-            margin-top: 8px;
-            display: none;
-        }
-        .prog.show { display: block; }
-        .prog-fill {
-            height: 100%;
-            background: #185FA5;
-            border-radius: 2px;
-            width: 0%;
-            transition: width 0.3s;
-        }
-
         .section-label {
-            font-size: 11px;
-            color: #bbb;
+            font-size: 11px; color: #bbb;
             padding: 8px 8px 4px;
             font-weight: 500;
             text-transform: uppercase;
@@ -140,11 +75,8 @@
             padding: 7px 10px;
             border-radius: 7px;
             cursor: pointer;
-            font-size: 13px;
-            color: #555;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-size: 13px; color: #555;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
             transition: all 0.15s;
         }
         .chat-item:hover { background: #ebebeb; color: #111; }
@@ -152,30 +84,23 @@
 
         .sidebar-footer { margin-top: auto; padding: 8px; font-size: 11px; color: #ccc; }
 
+        /* ── Main ── */
         .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
 
         .mob-header {
             display: none;
             padding: 12px 16px;
             border-bottom: 0.5px solid #f0f0f0;
-            align-items: center;
-            justify-content: space-between;
-            background: #fff;
-            flex-shrink: 0;
+            align-items: center; justify-content: space-between;
+            background: #fff; flex-shrink: 0;
         }
-
         .mob-brand { font-size: 15px; font-weight: 500; color: #111; letter-spacing: -0.3px; }
 
         .hamburger {
-            width: 30px;
-            height: 30px;
-            border: 0.5px solid #e8e8e8;
-            border-radius: 7px;
-            background: #fff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 30px; height: 30px;
+            border: 0.5px solid #e8e8e8; border-radius: 7px;
+            background: #fff; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
             color: #666;
         }
         .hamburger i { font-size: 15px; }
@@ -183,76 +108,42 @@
         .topbar {
             padding: 12px 20px;
             border-bottom: 0.5px solid #f0f0f0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between;
             flex-shrink: 0;
         }
-
         .topbar-title { font-size: 13px; color: #888; }
 
         .icon-btn {
-            width: 28px;
-            height: 28px;
-            border: 0.5px solid #e8e8e8;
-            border-radius: 6px;
-            background: #fff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #888;
-            transition: all 0.15s;
+            width: 28px; height: 28px;
+            border: 0.5px solid #e8e8e8; border-radius: 6px;
+            background: #fff; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: #888; transition: all 0.15s;
         }
         .icon-btn:hover { background: #f5f5f5; color: #111; }
         .icon-btn i { font-size: 14px; }
 
+        /* ── Chat ── */
         #chat-box {
-            flex: 1;
-            overflow-y: auto;
+            flex: 1; overflow-y: auto;
             padding: 32px 20%;
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
             gap: 20px;
         }
 
         .empty {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            padding-bottom: 60px;
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 16px; padding-bottom: 60px;
         }
-
         .empty h2 { font-size: 24px; font-weight: 500; color: #111; letter-spacing: -0.5px; }
+        .empty p { font-size: 14px; color: #999; text-align: center; max-width: 340px; line-height: 1.6; }
 
-        .empty p {
-            font-size: 14px;
-            color: #999;
-            text-align: center;
-            max-width: 340px;
-            line-height: 1.6;
-        }
-
-        .suggestions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 4px;
-        }
-
+        .suggestions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 4px; }
         .suggestion {
-            font-size: 13px;
-            padding: 8px 14px;
-            border-radius: 20px;
-            border: 0.5px solid #e0e0e0;
-            color: #555;
-            background: #fff;
-            cursor: pointer;
-            transition: all 0.15s;
+            font-size: 13px; padding: 8px 14px;
+            border-radius: 20px; border: 0.5px solid #e0e0e0;
+            color: #555; background: #fff; cursor: pointer; transition: all 0.15s;
         }
         .suggestion:hover { border-color: #185FA5; color: #185FA5; background: #f0f6ff; }
 
@@ -261,48 +152,34 @@
         .msg.assistant { align-items: flex-start; }
 
         .bubble {
-            padding: 12px 16px;
-            border-radius: 16px;
-            font-size: 14px;
-            line-height: 1.75;
-            max-width: 80%;
-            white-space: pre-wrap;
-            word-break: break-word;
+            padding: 12px 16px; border-radius: 16px;
+            font-size: 14px; line-height: 1.75;
+            max-width: 80%; white-space: pre-wrap; word-break: break-word;
         }
-
         .user .bubble { background: #185FA5; color: #fff; border-bottom-right-radius: 4px; }
         .assistant .bubble { background: #f5f5f3; color: #111; border-bottom-left-radius: 4px; }
 
         .source-label {
-            font-size: 11px;
-            color: #bbb;
-            padding: 0 4px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            font-size: 11px; color: #bbb; padding: 0 4px;
+            display: flex; align-items: center; gap: 4px;
         }
         .source-label i { font-size: 12px; }
 
         .typing-wrap { display: flex; }
         .typing {
-            padding: 12px 16px;
-            background: #f5f5f3;
-            border-radius: 16px;
-            border-bottom-left-radius: 4px;
-            display: flex;
-            gap: 5px;
-            align-items: center;
+            padding: 12px 16px; background: #f5f5f3;
+            border-radius: 16px; border-bottom-left-radius: 4px;
+            display: flex; gap: 5px; align-items: center;
         }
-
         .dot { width: 4px; height: 4px; border-radius: 50%; background: #ccc; animation: bounce 1.2s infinite; }
         .dot:nth-child(2) { animation-delay: .2s; }
         .dot:nth-child(3) { animation-delay: .4s; }
-
         @keyframes bounce {
-            0%, 80%, 100% { transform: translateY(0); }
+            0%,80%,100% { transform: translateY(0); }
             40% { transform: translateY(-4px); }
         }
 
+        /* ── Input area ── */
         .input-area {
             padding: 12px 20% 24px;
             background: #fff;
@@ -310,69 +187,86 @@
             flex-shrink: 0;
         }
 
+        .pdf-chip {
+            display: flex; align-items: center; gap: 8px;
+            background: #f0f6ff;
+            border: 0.5px solid #c5d8ee;
+            border-radius: 20px;
+            padding: 5px 10px;
+            font-size: 12px; color: #185FA5;
+            width: fit-content;
+            margin-bottom: 8px;
+        }
+        .pdf-chip i { font-size: 13px; }
+        .pdf-chip span { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .pdf-chip button {
+            border: none; background: transparent;
+            color: #888; cursor: pointer; font-size: 14px;
+            line-height: 1; padding: 0 2px;
+        }
+        .pdf-chip button:hover { color: #111; }
+
+        .upload-progress {
+            display: none;
+            background: #fff;
+            border: 0.5px solid #e8e8e6;
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+        }
+        .upload-progress.show { display: block; }
+        .upload-progress-row { display: flex; align-items: center; gap: 10px; }
+        .upload-progress-row i { font-size: 18px; color: #185FA5; }
+        .upload-progress-info { flex: 1; }
+        .upload-progress-name { font-size: 12px; font-weight: 500; color: #111; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .upload-progress-meta { font-size: 11px; color: #aaa; margin-top: 2px; }
+        .upload-bar { height: 2px; background: #eee; border-radius: 2px; margin-top: 6px; }
+        .upload-bar-fill { height: 100%; background: #185FA5; border-radius: 2px; width: 0%; transition: width 0.3s; }
+
         .input-wrap {
             background: #f9f9f7;
             border: 0.5px solid #e8e8e6;
             border-radius: 14px;
             padding: 10px 14px;
-            display: flex;
-            gap: 10px;
-            align-items: flex-end;
+            display: flex; gap: 8px; align-items: flex-end;
             transition: border-color 0.15s;
         }
         .input-wrap:focus-within { border-color: #185FA5; background: #fff; }
 
+        .attach-btn {
+            width: 26px; height: 26px;
+            border: none; background: transparent;
+            border-radius: 6px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: #aaa; flex-shrink: 0; transition: all 0.15s;
+        }
+        .attach-btn:hover { color: #185FA5; background: #f0f6ff; }
+        .attach-btn i { font-size: 16px; }
+
         #q {
-            flex: 1;
-            border: none;
-            outline: none;
-            font-size: 14px;
-            font-family: inherit;
-            color: #111;
-            background: transparent;
-            resize: none;
-            height: 24px;
-            max-height: 120px;
-            line-height: 1.6;
+            flex: 1; border: none; outline: none;
+            font-size: 14px; font-family: inherit; color: #111;
+            background: transparent; resize: none;
+            height: 24px; max-height: 120px; line-height: 1.6;
         }
         #q::placeholder { color: #bbb; }
-        #q:disabled { opacity: 0.4; }
 
         #send {
-            width: 28px;
-            height: 28px;
-            background: #185FA5;
-            border: none;
-            border-radius: 7px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.15s;
-            flex-shrink: 0;
+            width: 28px; height: 28px;
+            background: #185FA5; border: none; border-radius: 7px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: background 0.15s; flex-shrink: 0;
         }
         #send:hover { background: #0C447C; }
         #send:disabled { background: #c5d8ee; cursor: not-allowed; }
         #send i { font-size: 13px; color: #fff; }
 
-        .status-msg {
-            font-size: 11px;
-            color: #185FA5;
-            text-align: center;
-            margin-top: 6px;
-            min-height: 14px;
-        }
+        .input-hint { font-size: 11px; color: #ccc; text-align: center; margin-top: 6px; }
 
-
-.attach-btn{width:32px;height:32px;border:0;background:transparent;border-radius:50%;cursor:pointer;color:#666;display:flex;align-items:center;justify-content:center;flex-shrink:0}.attach-btn:hover{background:#eee;color:#111}
-#attachment-preview{max-width:760px;margin:0 auto 8px}.pdf-chip{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e8e8e6;padding:8px 12px;border-radius:14px;font-size:13px;width:fit-content;max-width:100%}.pdf-chip span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pdf-chip button{border:0;background:transparent;cursor:pointer;color:#777}
-
+        /* ── Mobile ── */
         @media (max-width: 768px) {
             .sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                height: 100vh;
+                position: fixed; top: 0; left: 0; height: 100vh;
                 transform: translateX(-100%);
                 box-shadow: 4px 0 20px rgba(0,0,0,0.08);
             }
@@ -384,70 +278,6 @@
             .bubble { max-width: 90%; }
             .empty h2 { font-size: 20px; }
         }
-
-        .upload-status{
-    display:none;
-    margin-bottom:10px;
-    background:#fff;
-    border:1px solid #e8e8e6;
-    border-radius:14px;
-    padding:10px 12px;
-}
-
-
-.upload-status.show{
-    display:block;
-}
-
-
-.upload-row{
-    display:flex;
-    gap:10px;
-    align-items:center;
-}
-
-
-.upload-row i{
-    color:#185FA5;
-    font-size:20px;
-}
-
-
-.upload-info{
-    flex:1;
-}
-
-
-#upload-name{
-    font-size:13px;
-    font-weight:500;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-}
-
-
-.upload-bar{
-    height:4px;
-    background:#eee;
-    border-radius:10px;
-    margin-top:7px;
-    overflow:hidden;
-}
-
-
-#upload-progress{
-    height:100%;
-    width:0%;
-    background:#185FA5;
-    transition:.3s;
-}
-
-
-#upload-text{
-    color:#888;
-    font-size:11px;
-}
     </style>
 </head>
 <body>
@@ -461,10 +291,8 @@
             <i class="ti ti-edit"></i>
         </button>
     </div>
-
     <div class="section-label">Recent</div>
     <div class="chat-item active" id="current-chat">New conversation</div>
-
     <div class="sidebar-footer">kiro · notes + web</div>
 </div>
 
@@ -488,7 +316,7 @@
     <div id="chat-box">
         <div class="empty" id="empty">
             <h2>What can I help with?</h2>
-            <p>Upload a PDF from the sidebar or ask anything on the web</p>
+            <p>Upload a PDF using the paperclip or ask anything on the web</p>
             <div class="suggestions">
                 <button class="suggestion" onclick="ask('Summarize this document')">Summarize document</button>
                 <button class="suggestion" onclick="ask('What are the main topics?')">Main topics</button>
@@ -499,44 +327,53 @@
     </div>
 
     <div class="input-area">
-        <div id="attachment-preview"></div>
+        <!-- pdf chip shown after upload -->
+        <div id="pdf-chip-wrap"></div>
 
-<div id="upload-status" class="upload-status">
-    <div class="upload-row">
-        <i class="ti ti-file-text"></i>
-
-        <div class="upload-info">
-            <div id="upload-name">Uploading...</div>
-
-            <div class="upload-bar">
-                <div id="upload-progress"></div>
+        <!-- upload progress -->
+        <div class="upload-progress" id="upload-progress">
+            <div class="upload-progress-row">
+                <i class="ti ti-file-text"></i>
+                <div class="upload-progress-info">
+                    <div class="upload-progress-name" id="upload-name">Uploading...</div>
+                    <div class="upload-progress-meta" id="upload-meta">Processing PDF</div>
+                    <div class="upload-bar">
+                        <div class="upload-bar-fill" id="upload-fill"></div>
+                    </div>
+                </div>
             </div>
-
-            <small id="upload-text">
-                Processing PDF
-            </small>
         </div>
+
+        <div class="input-wrap">
+            <button class="attach-btn" onclick="document.getElementById('file-input').click()" title="Upload PDF">
+                <i class="ti ti-paperclip"></i>
+            </button>
+            <textarea id="q" placeholder="Ask anything..."
+                onkeydown="handleKey(event)"
+                oninput="autoResize(this)"></textarea>
+            <button id="send" onclick="sendMsg()">
+                <i class="ti ti-arrow-up"></i>
+            </button>
+        </div>
+        <div class="input-hint">Enter to send &nbsp;·&nbsp; Shift+Enter for new line</div>
     </div>
-</div>
-        <input type="file" id="file-input" accept=".pdf" hidden>
-        <div class="status-msg" id="status-msg"></div>
-    </div>
+
+    <input type="file" id="file-input" accept=".pdf" onchange="handleFileSelect(event)" hidden>
 </div>
 
 <script>
-    const box          = document.getElementById('chat-box');
-    const inp          = document.getElementById('q');
-    const btn          = document.getElementById('send');
-    const title        = document.getElementById('chat-title');
-    const currentChat  = document.getElementById('current-chat');
-    const statusMsg    = document.getElementById('status-msg');
-    const pdfInfo      = document.getElementById('pdf-info');
-    const pdfNameEl    = document.getElementById('pdf-name');
-    const pdfMeta      = document.getElementById('pdf-meta');
-    const progressBar  = document.getElementById('progress-bar');
-    const progressFill = document.getElementById('progress-fill');
-    let firstMsg       = true;
-    let pdfReady       = false;
+    const box         = document.getElementById('chat-box');
+    const inp         = document.getElementById('q');
+    const btn         = document.getElementById('send');
+    const title       = document.getElementById('chat-title');
+    const currentChat = document.getElementById('current-chat');
+    const chipWrap    = document.getElementById('pdf-chip-wrap');
+    const uploadProg  = document.getElementById('upload-progress');
+    const uploadName  = document.getElementById('upload-name');
+    const uploadMeta  = document.getElementById('upload-meta');
+    const uploadFill  = document.getElementById('upload-fill');
+    let firstMsg      = true;
+    let pdfReady      = false;
 
     function autoResize(el) {
         el.style.height = '24px';
@@ -557,43 +394,25 @@
         document.getElementById('overlay').classList.remove('show');
     }
 
-    function handleDragOver(e) {
-        e.preventDefault();
-        e.currentTarget.classList.add('dragover');
-    }
-
-    function handleDragLeave(e) {
-        e.currentTarget.classList.remove('dragover');
-    }
-
-    function handleDrop(e) {
-        e.preventDefault();
-        e.currentTarget.classList.remove('dragover');
-        const f = e.dataTransfer.files[0];
-        if (f && f.type === 'application/pdf') uploadFile(f);
-    }
-
     function handleFileSelect(e) {
         const f = e.target.files[0];
         if (f) uploadFile(f);
-        closeSidebar();
     }
 
     async function uploadFile(file) {
-        pdfInfo.classList.add('show');
-        pdfNameEl.textContent = file.name;
-        pdfMeta.textContent = 'Uploading...';
-        progressBar.classList.add('show');
-        progressFill.style.width = '10%';
-        statusMsg.textContent = 'Processing your PDF...';
+        // show progress
+        chipWrap.innerHTML = '';
+        uploadProg.classList.add('show');
+        uploadName.textContent = file.name;
+        uploadMeta.textContent = 'Processing...';
+        uploadFill.style.width = '10%';
         inp.placeholder = 'Processing PDF...';
-        inp.disabled = true;
         btn.disabled = true;
 
         let progress = 10;
         const interval = setInterval(() => {
             progress = Math.min(progress + 2, 85);
-            progressFill.style.width = progress + '%';
+            uploadFill.style.width = progress + '%';
         }, 1000);
 
         try {
@@ -604,35 +423,55 @@
             clearInterval(interval);
 
             if (d.status === 'ready') {
-                progressFill.style.width = '100%';
-                pdfMeta.textContent = d.chunks + ' chunks ready';
-                statusMsg.textContent = '';
+                uploadFill.style.width = '100%';
+                uploadMeta.textContent = d.chunks + ' chunks ready';
+
+                setTimeout(() => {
+                    uploadProg.classList.remove('show');
+                    chipWrap.innerHTML = `
+                        <div class="pdf-chip">
+                            <i class="ti ti-file-text"></i>
+                            <span>${file.name}</span>
+                            <button onclick="removePDF()" title="Remove">×</button>
+                        </div>`;
+                }, 800);
+
                 inp.placeholder = 'Ask anything about your PDF...';
-                inp.disabled = false;
                 btn.disabled = false;
                 pdfReady = true;
 
-                document.getElementById('empty').innerHTML = `
-                    <h2>What do you want to know?</h2>
-                    <p>${file.name} is ready — ask anything about it or the web</p>
-                    <div class="suggestions">
-                        <button class="suggestion" onclick="ask('Summarize this document')">Summarize</button>
-                        <button class="suggestion" onclick="ask('What are the main topics?')">Main topics</button>
-                        <button class="suggestion" onclick="ask('What are the key points?')">Key points</button>
-                    </div>`;
+                const empty = document.getElementById('empty');
+                if (empty) {
+                    empty.innerHTML = `
+                        <h2>What do you want to know?</h2>
+                        <p>${file.name} is ready — ask anything about it or the web</p>
+                        <div class="suggestions">
+                            <button class="suggestion" onclick="ask('Summarize this document')">Summarize</button>
+                            <button class="suggestion" onclick="ask('What are the main topics?')">Main topics</button>
+                            <button class="suggestion" onclick="ask('What are the key points?')">Key points</button>
+                        </div>`;
+                }
+
             } else {
-                pdfMeta.textContent = 'Upload failed';
-                statusMsg.textContent = d.message || 'Something went wrong';
-                inp.disabled = false;
+                uploadProg.classList.remove('show');
+                uploadMeta.textContent = 'Upload failed';
+                inp.placeholder = 'Ask anything...';
                 btn.disabled = false;
             }
+
         } catch(e) {
             clearInterval(interval);
-            pdfMeta.textContent = 'Upload failed';
-            statusMsg.textContent = 'Could not process PDF';
-            inp.disabled = false;
+            uploadProg.classList.remove('show');
+            inp.placeholder = 'Ask anything...';
             btn.disabled = false;
         }
+    }
+
+    function removePDF() {
+        chipWrap.innerHTML = '';
+        pdfReady = false;
+        document.getElementById('file-input').value = '';
+        inp.placeholder = 'Ask anything...';
     }
 
     function removeEmpty() {
@@ -701,23 +540,6 @@
         inp.focus();
     }
 
-
-    function openFilePicker(){ document.getElementById('file-input').click(); }
-
-    document.getElementById('file-input').addEventListener('change', function(e){
-        const f=e.target.files[0];
-        if(f) {
-            document.getElementById('attachment-preview').innerHTML = `<div class="pdf-chip"><i class="ti ti-file-text"></i><span>${f.name}</span><button onclick="removePDF()">×</button></div>`;
-            uploadFile(f);
-        }
-    });
-
-    function removePDF(){
-        document.getElementById('attachment-preview').innerHTML='';
-        pdfReady=false;
-        document.getElementById('file-input').value='';
-    }
-
     async function clearChat() {
         await fetch('/clear', { method: 'POST' });
         firstMsg = true;
@@ -734,7 +556,7 @@
                 </div></div>`
             : `<div class="empty" id="empty">
                 <h2>What can I help with?</h2>
-                <p>Upload a PDF from the sidebar or ask anything on the web</p>
+                <p>Upload a PDF using the paperclip or ask anything on the web</p>
                 <div class="suggestions">
                     <button class="suggestion" onclick="ask('Summarize this document')">Summarize document</button>
                     <button class="suggestion" onclick="ask('What are the main topics?')">Main topics</button>
