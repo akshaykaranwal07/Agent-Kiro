@@ -3,12 +3,15 @@ import json
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
+from groq import Groq
 from tools import get_tools
+from config import VISION_MODEL
 
 load_dotenv()
 
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-MODEL = "gemini-3.5-flash"
+#client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+MODEL = VISION_MODEL
 
 conversation_history = []
 
@@ -42,7 +45,7 @@ Reply ONLY with JSON, nothing else:
 or
 {{"tool": "search_web", "reason": "brief reason"}}"""
 
-    response = client.models.generate_content(
+    """response = client.models.generate_content(
         model=MODEL,
         contents=prompt
     )
@@ -50,6 +53,16 @@ or
     raw = response.text.strip()
 
     # clean markdown code blocks if present
+    raw = raw.replace("```json", "").replace("```", "").strip()"""
+
+    response = client.chat.completions.create(
+        model=MODEL,
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=100
+    )
+
+    raw = response.choices[0].message.content.strip()   # CHANGED: response.text → response.choices[0].message.content
+
     raw = raw.replace("```json", "").replace("```", "").strip()
 
     try:
@@ -62,30 +75,37 @@ or
 def answer_question(question: str, context: str, tool_used: str) -> str:
     source = "the user's uploaded PDF" if tool_used == "search_notes" else "web search results"
 
-    # build history as a single string for Gemini
-    history_text = ""
-    if conversation_history:
-        for m in conversation_history[-6:]:
-            history_text += f"{m['role'].upper()}: {m['content']}\n\n"
-
-    prompt = f"""You are a helpful assistant.
+    # CHANGED: Groq supports proper system/user message format
+    # no need to build history as a string — pass as messages list
+    messages = [
+        {
+            "role": "system",
+            "content": f"""You are a helpful assistant.
 Answer based only on the context provided from {source}.
 Be concise and accurate.
-If the answer isn't in the context, say so clearly.
+If the answer isn't in the context, say so clearly."""
+        }
+    ]
 
-{f"Previous conversation:{chr(10)}{history_text}" if history_text else ""}
+    # KEPT: conversation history logic same
+    # CHANGED: appending as proper message dicts instead of string
+    if conversation_history:
+        messages.extend(conversation_history[-6:])
 
-Context from {source}:
-{context}
+    messages.append({
+        "role": "user",
+        "content": f"Context from {source}:\n{context}\n\nQuestion: {question}"
+    })
 
-Question: {question}"""
-
-    response = client.models.generate_content(
+    # CHANGED: client.models.generate_content → client.chat.completions.create
+    # CHANGED: contents=prompt → messages=messages
+    # CHANGED: response.text → response.choices[0].message.content
+    response = client.chat.completions.create(
         model=MODEL,
-        contents=prompt
+        messages=messages
     )
 
-    return response.text
+    return response.choices[0].message.content         
 
 
 def run_agent(question: str, collection_name: str) -> tuple:

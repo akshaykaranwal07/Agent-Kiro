@@ -4,11 +4,13 @@ import os
 import time
 from google import genai
 from dotenv import load_dotenv
+from groq import Groq
 from config import VISION_MODEL
 
 load_dotenv()
 
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+#client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 model = VISION_MODEL
 
 def extract_text_from_pdf(pdf_path, output_dir="extracted"):
