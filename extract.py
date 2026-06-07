@@ -2,7 +2,7 @@ import fitz
 import base64
 import os
 import time
-import google.generativeai as genai
+from google import genai
 from dotenv import load_dotenv
 from config import VISION_MODEL
 
