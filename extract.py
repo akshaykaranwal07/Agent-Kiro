@@ -8,8 +8,8 @@ from config import VISION_MODEL
 
 load_dotenv()
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel(VISION_MODEL)
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+model = VISION_MODEL
 
 def extract_text_from_pdf(pdf_path, output_dir="extracted"):
     os.makedirs(output_dir, exist_ok=True)
