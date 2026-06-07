@@ -9,6 +9,8 @@ import uvicorn
 import shutil
 import uuid
 import os
+os.environ["ANONYMIZED_TELEMETRY"] = "False"
+os.environ["CHROMA_TELEMETRY"] = "False"
 
 load_dotenv()
 
