@@ -11,7 +11,7 @@ Kiro is an agentic RAG (Retrieval-Augmented Generation) application that lets yo
 
 ## Live Demo
 
-🔗 [your-railway-url.up.railway.app](https://your-railway-url.up.railway.app)
+🔗 [your-railway-url.up.railway.app](https://agent-kiro-production.up.railway.app/)
 
 ---
 
@@ -229,4 +229,4 @@ MIT License — free to use, modify, and distribute.
 
 ---
 
-<p align="center">Built by <a href="https://github.com/akshaykaranwal07">Akshay</a> — AI Engineer</p>
+<p align="center">Built by <a href="https://github.com/reloaddd">Reload</a> — AI Engineer</p>
