@@ -2,65 +2,85 @@ import fitz
 import base64
 import os
 import time
-from google import genai
-from dotenv import load_dotenv
 from groq import Groq
+from dotenv import load_dotenv
 from config import VISION_MODEL
 
 load_dotenv()
 
-#client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-model = VISION_MODEL
+client = Groq()
 
-def extract_text_from_pdf(pdf_path, output_dir="extracted"):
+
+def extract_page_with_vision(image_path: str) -> str:
+    """Use Groq vision for scanned/handwritten pages"""
+    with open(image_path, "rb") as f:
+        image_data = base64.b64encode(f.read()).decode("utf-8")
+
+    response = client.chat.completions.create(
+        model=VISION_MODEL,
+        messages=[{
+            "role": "user",
+            "content": [
+                {
+                    "type": "image_url",
+                    "image_url": {
+                        "url": f"data:image/jpeg;base64,{image_data}"
+                    }
+                },
+                {
+                    "type": "text",
+                    "text": """Transcribe ALL text visible in this image.
+                    - Preserve structure — headings, bullets, tables
+                    - If text is unclear mark it with [?]
+                    - Only return transcribed text, nothing else
+                    - If blank write BLANK PAGE"""
+                }
+            ]
+        }],
+        max_tokens=2000
+    )
+    return response.choices[0].message.content
+
+
+def extract_text_from_pdf(pdf_path: str, output_dir: str = "extracted") -> list:
     os.makedirs(output_dir, exist_ok=True)
 
-    print(f"Converting PDF to images — {pdf_path}")
+    print(f"Opening: {pdf_path}")
     doc = fitz.open(pdf_path)
-    print(f"Total pages: {len(doc)}")
+    total = len(doc)
+    print(f"Total pages: {total}")
 
     all_text = []
 
     for i, page in enumerate(doc):
-        print(f"Extracting page {i+1}/{len(doc)}...")
+        print(f"Page {i+1}/{total}...")
 
-        # try direct text extraction first — saves tokens
+        # try direct text first
         text = page.get_text().strip()
+        print(f"  raw text length: {len(text)}")
 
-        if len(text) > 50:
-            print(f"  Page {i+1} — direct text extraction")
+        if len(text) > 10:
+            print(f"  direct extraction — {len(text)} chars")
+
         else:
-            # scanned or handwritten — use vision
-            print(f"  Page {i+1} — using Gemini vision")
-            mat = fitz.Matrix(2.0, 2.0)
-            pix = page.get_pixmap(matrix=mat)
+            # always use vision if no text found
+            print(f"  vision OCR...")
+            mat      = fitz.Matrix(2.0, 2.0)
+            pix      = page.get_pixmap(matrix=mat)
             img_path = f"{output_dir}/temp_page_{i+1}.jpg"
             pix.save(img_path)
 
-            try:
-                with open(img_path, "rb") as f:
-                    image_data = f.read()
+        try:
+            text = extract_page_with_vision(img_path)
+            print(f"  vision done — {len(text)} chars")
+            time.sleep(2)
 
-                response = model.generate_content([
-                    {"mime_type": "image/jpeg", "data": image_data},
-                    """You are an expert at reading documents.
-                    Transcribe ALL text visible in this image.
-                    Rules:
-                    - Preserve structure — headings, subheadings, bullet points, tables
-                    - If text is unclear, make your best guess and mark it with [?]
-                    - Preserve formulas, diagram labels, and special symbols
-                    - Only return the transcribed text, nothing else
-                    - If page is blank write BLANK PAGE"""
-                ])
+        except Exception as e:
+            print(f"  vision failed: {e}")
+            text = f"[EXTRACTION FAILED FOR PAGE {i+1}]"
 
-                text = response.text
-                print(f"  {len(text)} characters extracted")
-                time.sleep(4)  # gemini free tier rate limit
-
-            except Exception as e:
-                print(f"  Failed on page {i+1}: {e}")
-                text = f"[EXTRACTION FAILED FOR PAGE {i+1}]"
+        if os.path.exists(img_path):
+            os.remove(img_path)
 
         all_text.append(text)
 
