@@ -362,6 +362,15 @@
 </div>
 
 <script>
+
+    // add this at the top of your script
+    // sessionStorage is unique per tab, unlike cookies
+    let tabId = sessionStorage.getItem('tab_id');
+if (!tabId) {
+    tabId = Math.random().toString(36).substring(2, 15);
+    sessionStorage.setItem('tab_id', tabId);
+}
+
     const box         = document.getElementById('chat-box');
     const inp         = document.getElementById('q');
     const btn         = document.getElementById('send');
@@ -418,6 +427,7 @@
         try {
             const formData = new FormData();
             formData.append('file', file);
+            formData.append('tab_id', tabId); // include tab_id in the upload request
             const r = await fetch('/upload', { method: 'POST', body: formData });
             const d = await r.json();
             clearInterval(interval);
@@ -525,9 +535,9 @@
         addTyping();
         try {
             const r = await fetch('/ask', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ question: q })
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ question: q, tab_id: tabId })  // add tab_id
             });
             const d = await r.json();
             document.getElementById('typing')?.remove();
@@ -541,7 +551,11 @@
     }
 
     async function clearChat() {
-        await fetch('/clear', { method: 'POST' });
+        await fetch('/clear', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tab_id: tabId })  // add tab_id
+    });
         firstMsg = true;
         title.textContent = 'New conversation';
         currentChat.textContent = 'New conversation';
