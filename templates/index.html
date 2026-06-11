@@ -363,13 +363,12 @@
 
 <script>
 
-    // add this at the top of your script
     // sessionStorage is unique per tab, unlike cookies
     let tabId = sessionStorage.getItem('tab_id');
-if (!tabId) {
+    if (!tabId) {
     tabId = Math.random().toString(36).substring(2, 15);
     sessionStorage.setItem('tab_id', tabId);
-}
+    }
 
     const box         = document.getElementById('chat-box');
     const inp         = document.getElementById('q');

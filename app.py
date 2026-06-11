@@ -1,5 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from agent import run_agent
 from extract import extract_text_from_pdf
@@ -18,6 +19,15 @@ os.environ["CHROMA_TELEMETRY"] = "False"
 load_dotenv()
 
 app = FastAPI()
+
+# Enable CORS for all origins (allows mobile access)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # per tab sessions
 sessions = {}
@@ -131,4 +141,6 @@ def is_summary_request(question: str) -> bool:
 
 
 if __name__ == "__main__":
-    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
+    # Use reload only in development mode
+    reload = os.getenv("ENVIRONMENT") != "production"
+    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=reload)
