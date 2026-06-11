@@ -46,11 +46,15 @@ async def upload_pdf(
     session_key = tab_id or str(uuid.uuid4())
 
     try:
-        os.makedirs("/tmp/data",      exist_ok=True)
-        os.makedirs("/tmp/extracted", exist_ok=True)
+        # use a project-local tmp directory (works cross-platform)
+        base_tmp = os.path.join(os.getcwd(), "tmp")
+        data_dir = os.path.join(base_tmp, "data")
+        extracted_base = os.path.join(base_tmp, "extracted")
+        os.makedirs(data_dir, exist_ok=True)
+        os.makedirs(extracted_base, exist_ok=True)
 
-        pdf_path      = f"/tmp/data/{session_key}_{file.filename}"
-        extracted_dir = f"/tmp/extracted/{session_key}"
+        pdf_path = os.path.join(data_dir, f"{session_key}_{file.filename}")
+        extracted_dir = os.path.join(extracted_base, session_key)
 
         with open(pdf_path, "wb") as f:
             shutil.copyfileobj(file.file, f)
