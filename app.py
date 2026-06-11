@@ -1,8 +1,9 @@
-from fastapi import FastAPI, UploadFile, File, Form
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi import FastAPI, UploadFile, File, Form, Request
+from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse
+import json
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from agent import run_agent
+from agent import run_agent, run_agent_stream
 from extract import extract_text_from_pdf
 from chunk_embed import load_extracted_text, store_in_chromadb
 from dotenv import load_dotenv
@@ -11,6 +12,8 @@ import uvicorn
 import shutil
 import uuid
 import os
+from datetime import datetime
+from collections import defaultdict
 from prompts import SUMMARY_PROMPT
 
 os.environ["ANONYMIZED_TELEMETRY"] = "False"
@@ -32,6 +35,33 @@ app.add_middleware(
 # per tab sessions
 sessions = {}
 
+# visitor tracking
+visitor_stats = {
+    "total_requests": 0,
+    "unique_visitors": set(),
+    "requests_by_path": defaultdict(int),
+    "start_time": datetime.now().isoformat(),
+    "last_request": None
+}
+
+
+@app.middleware("http")
+async def track_visitors(request: Request, call_next):
+    """Track visitor requests and unique IPs"""
+    # get client IP (handles proxies like Railway)
+    client_ip = request.headers.get("x-forwarded-for", request.client.host if request.client else "unknown")
+    if "," in client_ip:
+        client_ip = client_ip.split(",")[0].strip()
+    
+    # count request
+    visitor_stats["total_requests"] += 1
+    visitor_stats["unique_visitors"].add(client_ip)
+    visitor_stats["requests_by_path"][request.url.path] += 1
+    visitor_stats["last_request"] = datetime.now().isoformat()
+    
+    response = await call_next(request)
+    return response
+
 
 class Question(BaseModel):
     question: str
@@ -40,6 +70,19 @@ class Question(BaseModel):
 
 class ClearRequest(BaseModel):
     tab_id: Optional[str] = None
+
+
+@app.get("/stats")
+async def get_stats():
+    """Return visitor analytics (public endpoint)"""
+    return {
+        "total_requests": visitor_stats["total_requests"],
+        "unique_visitors": len(visitor_stats["unique_visitors"]),
+        "requests_by_path": dict(visitor_stats["requests_by_path"]),
+        "uptime_since": visitor_stats["start_time"],
+        "last_request": visitor_stats["last_request"],
+        "active_sessions": len(sessions)
+    }
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -96,11 +139,19 @@ async def upload_pdf(
 
 
 @app.post("/ask")
-async def ask(q: Question):
+async def ask(q: Question, request: Request):
     session_key = q.tab_id
+    # detect streaming request header
+    stream = request.headers.get("x-stream", "false").lower() == "true"
 
     # if no PDF uploaded — still allow web search
     if not session_key or session_key not in sessions:
+        # no PDF uploaded — allow web search
+        if stream:
+            def event_stream():
+                for ev in run_agent_stream(q.question, None, []):
+                    yield f"data: {json.dumps(ev)}\n\n"
+            return StreamingResponse(event_stream(), media_type="text/event-stream")
         try:
             answer, tool_used = run_agent(
                 q.question,
@@ -113,6 +164,13 @@ async def ask(q: Question):
 
     # PDF uploaded — use session
     user_session = sessions[session_key]
+    # PDF uploaded — use session
+    user_session = sessions[session_key]
+    if stream:
+        def event_stream():
+            for ev in run_agent_stream(q.question, user_session["collection_name"], user_session["history"]):
+                yield f"data: {json.dumps(ev)}\n\n"
+        return StreamingResponse(event_stream(), media_type="text/event-stream")
     try:
         answer, tool_used = run_agent(
             q.question,

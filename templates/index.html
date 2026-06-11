@@ -525,6 +525,18 @@
         box.scrollTop = box.scrollHeight;
     }
 
+    // Type out text with a small delay per character for a natural typing effect.
+    // Adjust `CHAR_DELAY_MS` to make it faster or slower.
+    const CHAR_DELAY_MS = 20;
+    async function typeOut(text, el, charDelay = CHAR_DELAY_MS) {
+        for (let i = 0; i < text.length; i++) {
+            el.textContent += text[i];
+            box.scrollTop = box.scrollHeight;
+            // small await to create typing effect
+            await new Promise(r => setTimeout(r, charDelay));
+        }
+    }
+
     async function sendMsg() {
         const q = inp.value.trim();
         if (!q) return;
@@ -534,14 +546,68 @@
         addMsg('user', q);
         addTyping();
         try {
+            // use streaming endpoint (SSE) to receive partial chunks
             const r = await fetch('/ask', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ question: q, tab_id: tabId })  // add tab_id
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-Stream': 'true' },
+                body: JSON.stringify({ question: q, tab_id: tabId })
             });
-            const d = await r.json();
+
+            if (!r.ok) throw new Error('Network response was not ok');
+
+            // create assistant bubble and update progressively
             document.getElementById('typing')?.remove();
-            addMsg('assistant', d.answer, d.tool_used);
+            const assistantMsg = document.createElement('div');
+            assistantMsg.className = 'msg assistant';
+            const assistantBubble = document.createElement('div');
+            assistantBubble.className = 'bubble';
+            assistantBubble.textContent = '';
+            assistantMsg.appendChild(assistantBubble);
+            box.appendChild(assistantMsg);
+            box.scrollTop = box.scrollHeight;
+
+            const reader = r.body.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
+            let tool_used = null;
+
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                buffer += decoder.decode(value, { stream: true });
+
+                // process SSE events separated by double newline
+                let parts = buffer.split('\n\n');
+                buffer = parts.pop(); // remainder
+                for (const part of parts) {
+                    if (!part.startsWith('data:')) continue;
+                    const payload = part.replace(/^data:\s*/,'');
+                    try {
+                        const ev = JSON.parse(payload);
+                        if (ev.type === 'meta' && ev.tool) {
+                            tool_used = ev.tool;
+                        } else if (ev.type === 'chunk' && ev.text) {
+                            // type out the incoming chunk slowly for a natural feel
+                            await typeOut(ev.text, assistantBubble);
+                        } else if (ev.type === 'done') {
+                            // finished
+                        }
+                    } catch(e) {
+                        // ignore parse errors
+                    }
+                }
+            }
+
+            // remove typing if still present and add source label
+            document.getElementById('typing')?.remove();
+            if (tool_used) {
+                const s = document.createElement('div');
+                s.className = 'source-label';
+                s.innerHTML = tool_used === 'search_notes'
+                    ? '<i class="ti ti-file-text"></i> from your PDF'
+                    : '<i class="ti ti-world"></i> from the web';
+                assistantMsg.appendChild(s);
+            }
         } catch(e) {
             document.getElementById('typing')?.remove();
             addMsg('assistant', 'Something went wrong. Please try again.');

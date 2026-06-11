@@ -134,10 +134,14 @@ def answer_question(question: str, context: str, tool_used: str, history: list =
     response = client.chat.completions.create(
         model=MODEL,
         messages=messages,
-        temperature=0.1
+        temperature=0.1,
+        stream=True
     )
-
-    return response.choices[0].message.content
+    #print(f"Response", response)
+    for chunk in response:
+        # Check if the chunk contains content to print
+        if chunk.choices[0].delta.content is not None:
+            yield chunk.choices[0].delta.content
 
 
 def run_agent(question: str, collection_name: str, history: list = None) -> tuple:
@@ -159,12 +163,50 @@ def run_agent(question: str, collection_name: str, history: list = None) -> tupl
 
     use_cot=should_use_cot(question)
 
-    answer = answer_question(question, context, tool_name, history,use_cot)
+    # non-streaming: collect all chunks into a single string
+    answer_gen = answer_question(question, context, tool_name, history, use_cot)
+    answer_text = "".join([chunk for chunk in answer_gen])
 
     history.append({"role": "user", "content": question})
-    history.append({"role": "assistant", "content": answer})
+    history.append({"role": "assistant", "content": answer_text})
 
     if len(history) > 20:
         del history[:2]
 
-    return answer, tool_name
+    return answer_text, tool_name
+
+
+def run_agent_stream(question: str, collection_name: str, history: list = None):
+    """Stream the agent response as chunks (generator). Yields dicts with keys:
+       - type: 'meta'|'chunk'|'done'
+       - tool: tool name (meta)
+       - text: chunk text (chunk)
+       - full: final assembled text (done)
+    """
+    if history is None:
+        history = []
+
+    search_query = rewrite_query(question, history)
+
+    tools = get_tools(collection_name)
+    tool_name, reason = decide_tool(search_query, tools, history)
+    tool_fn = tools[tool_name]["function"]
+    context = tool_fn(search_query)
+
+    use_cot = should_use_cot(question)
+
+    # send metadata first
+    yield {"type": "meta", "tool": tool_name}
+
+    buffer = []
+    for chunk in answer_question(question, context, tool_name, history, use_cot):
+        buffer.append(chunk)
+        yield {"type": "chunk", "text": chunk}
+
+    full = "".join(buffer)
+    history.append({"role": "user", "content": question})
+    history.append({"role": "assistant", "content": full})
+    if len(history) > 20:
+        del history[:2]
+
+    yield {"type": "done", "full": full}
