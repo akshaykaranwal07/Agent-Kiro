@@ -11,36 +11,47 @@ load_dotenv()
 client = Groq()
 
 
-def extract_page_with_vision(image_path: str) -> str:
-    """Use Groq vision for scanned/handwritten pages"""
+def extract_page_with_vision(image_path: str, max_retries: int = 3) -> str:
+    """Use Groq vision for scanned/handwritten pages with an automatic retry loop"""
     with open(image_path, "rb") as f:
         image_data = base64.b64encode(f.read()).decode("utf-8")
 
-    response = client.chat.completions.create(
-        model=VISION_MODEL,
-        messages=[{
-            "role": "user",
-            "content": [
-                {
-                    "type": "image_url",
-                    "image_url": {
-                        "url": f"data:image/jpeg;base64,{image_data}"
-                    }
-                },
-                {
-                    "type": "text",
-                    "text": """Transcribe ALL text visible in this image.
-                    - Preserve structure — headings, bullets, tables
-                    - If text is unclear mark it with [?]
-                    - Only return transcribed text, nothing else
-                    - If blank write BLANK PAGE"""
-                }
-            ]
-        }],
-        max_tokens=2000
-    )
-    return response.choices[0].message.content
+    # Retry loop to handle unexpected API drops or rate limits
+    for attempt in range(max_retries):
+        try:
+            response = client.chat.completions.create(
+                model=VISION_MODEL,
+                messages=[{
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:image/jpeg;base64,{image_data}"
+                            }
+                        },
+                        {
+                            "type": "text",
+                            "text": """Transcribe ALL text visible in this image.
+                            - Preserve structure — headings, bullets, tables
+                            - If text is unclear mark it with [?]
+                            - Only return transcribed text, nothing else
+                            - If blank write BLANK PAGE"""
+                        }
+                    ]
+                }],
+                max_tokens=2000
+            )
+            # If successful, return the text immediately and break the retry loop
+            return response.choices[0].message.content
 
+        except Exception as e:
+            print(f"      [Attempt {attempt + 1}/{max_retries}] Vision API error: {e}")
+            if attempt < max_retries - 1:
+                time.sleep(3)  # Wait 3 seconds before trying again
+            else:
+                # If all retries fail, raise the exception up to the main function
+                raise e
 
 def extract_text_from_pdf(pdf_path: str, output_dir: str = "extracted") -> list:
     os.makedirs(output_dir, exist_ok=True)

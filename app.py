@@ -23,7 +23,6 @@ load_dotenv()
 
 app = FastAPI()
 
-# Enable CORS for all origins (allows mobile access)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],

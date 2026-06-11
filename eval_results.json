@@ -2,44 +2,44 @@
   {
     "question": "What are the four aspects of tenses?",
     "expected": "Indefinite, Continuous, Perfect, Perfect Continuous",
-    "actual": "The four aspects of English language tenses are: \n* simple\n* perfect\n* continuous\n* perfect continuous.",
+    "actual": "The four aspects of tenses are: \n- Simple \n- Continuous (also known as Progressive) \n- Perfect \n- Perfect Continuous.",
     "correct": false,
-    "reason": "missing key information: 'indefinite' is expected, 'simple' is provided instead"
+    "reason": "missing 'indefinite', provided 'simple' instead"
   },
   {
     "question": "What is the indefinite aspect used for?",
     "expected": "Permanent, frequently, general information",
-    "actual": "The indefinite aspect is used to express a fact. It is also used to group all verbs (past, present, and future) in the indefinite tenses. The term is occasionally referred to as the simple aspect. It is used to express a fact, similar to the simple aspect.",
+    "actual": "The indefinite aspect is used to describe facts and habits. It is also used to talk about actions in a general or open-ended manner, expressing general truths and habitual actions. According to the sources, it is commonly used for these purposes.",
     "correct": true,
-    "reason": "minor wording differences and extra information"
+    "reason": "minor wording differences, conveys same information"
   },
   {
     "question": "What is the continuous aspect used for?",
     "expected": "Temporary, incomplete, ongoing action",
-    "actual": "The continuous aspect is used for actions that are occurring at the time in question. It expresses an ongoing action and focuses on the duration of an event. According to the sources, it is used for something that is happening before and after a specific time, and to show that an action was, is, or will be in progress at a specific point in time or over a period of time.",
+    "actual": "The continuous aspect is used to express an ongoing, but not habitual, occurrence of the state or event expressed by the verb. It is an imperfective aspect that describes an action that is in progress. According to the sources, it does not typically describe habitual behavior, although one source notes that the present perfect continuous can be used for habitual behavior over time. The continuous aspect is used to convey that something is happening at a specific point in time.",
     "correct": true,
-    "reason": "matches expected with extra information"
+    "reason": "minor wording differences and extra information"
   },
   {
     "question": "What is the perfect aspect used for?",
     "expected": "Completed action, degree of work done",
-    "actual": "The provided context doesn't explicitly state what the perfect aspect is used for. It describes the forms and structures of the perfect aspect, such as \"have ___ ed\" and \"have\" followed by the participle of the main verb. The context also mentions specific types of perfect aspects, like the present perfect simple and the future perfect. I couldn't find a general description of its purpose in the provided content.",
-    "correct": false,
-    "reason": "actual answer says context does not mention"
+    "actual": "The perfect aspect is used to \"connect a past situation to a later time\" and to emphasize the relationship between a past event and its relevance to the present or another reference point. It highlights a result that matters now, an experience up to now, or a state that has continued to now. The perfect aspect serves to emphasize various aspects of verbs, connecting completed actions to distinct temporal contexts.",
+    "correct": true,
+    "reason": "actual provides more detailed explanation"
   },
   {
     "question": "What is perfect continuous aspect?",
     "expected": "Partially incomplete and partially complete action",
-    "actual": "The perfect continuous aspect, also known as the perfect progressive aspect, is used to describe ongoing or continuous actions. It combines the auxiliary verbs \"have\" and \"be\" to express this aspect. According to the sources, it is used to talk about something that started in the past and continues up to the present. The perfect continuous aspect expresses an ongoing action, as stated in the \"continuing aspect\" definition.",
-    "correct": true,
-    "reason": "minor wording differences and extra information"
+    "actual": "The perfect progressive aspect, also known as the \"perfect continuing aspect\", is the aspect of a verb that expresses the end of an ongoing action. It is used to talk about something that started in the past and continues up to the present moment. According to the sources, it combines the auxiliary verbs \"have\" and \"be\" to form the perfect continuous tenses. The perfect continuous aspect can describe repeated actions and express the length of time of an action.",
+    "correct": false,
+    "reason": "missing key information about action being partially incomplete and partially complete"
   },
   {
     "question": "What is tense?",
     "expected": "Time of action, state happening, possession or degree of an action",
     "actual": "Tense is defined as the \"Time of action, state happening, possession or degree of an action\". It relates to various aspects including voices, narrations, and the mood of the speaker. The context also mentions different types of tenses and verb forms, such as present continuous and stative verbs.",
     "correct": true,
-    "reason": "minor wording differences and extra information"
+    "reason": "Minor wording differences and extra information"
   },
   {
     "question": "What is the V2 past form of go?",
@@ -58,15 +58,15 @@
   {
     "question": "What is the V4 continuous form of come?",
     "expected": "coming",
-    "actual": "The V\u2074 continuous form of \"Come\" is \"Coming\".",
+    "actual": "The V\u2074 continuous form of \"come\" is \"Coming\".",
     "correct": true,
-    "reason": "minor wording differences"
+    "reason": "minor wording difference"
   },
   {
     "question": "What is the V5 singular form of explain?",
     "expected": "explains",
-    "actual": "To answer this question, let's follow the steps:\n\nStep 1 - Understand what's being asked: \nWe need to find the V5 (V\u00b9+ses) Singular form of the verb \"explain\".\n\nStep 2 - Find relevant information in the context:\nThe relevant information can be found in the table on [page_2.txt], which lists various verb forms, including the V5 Singular form.\n\nStep 3 - Formulate a clear answer:\nLooking at the table, we find the row for the verb \"Explain\". The V5 (V\u00b9+ses) Singular form for \"Explain\" is listed as \"Explains\".\n\nStep 4 - Check if the answer directly addresses the question:\nYes, the answer directly addresses the question by providing the V5 Singular form of the verb \"explain\", which is \"Explains\".\n\nTherefore, the V5 singular form of \"explain\" is \"Explains\".",
+    "actual": "To answer this question, let's follow the steps:\n\nStep 1 - Understand what's being asked: \nWe need to find the V5 (V\u00b9+ses) Singular form of the verb \"explain\".\n\nStep 2 - Find relevant information in the context:\nThe relevant information can be found in the table on [page_2.txt], which lists various verb forms, including the V5 Singular form.\n\nStep 3 - Formulate a clear answer:\nLooking at the table, we find the row for the verb \"explain\". The V5 (V\u00b9+ses) Singular form for \"explain\" is listed as \"Explains\".\n\nStep 4 - Check if the answer directly addresses the question:\nYes, the answer directly addresses the question by providing the V5 Singular form of the verb \"explain\".\n\nThe final answer is: Explains.",
     "correct": true,
-    "reason": "matches expected answer"
+    "reason": "Minor case difference"
   }
 ]
