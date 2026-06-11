@@ -1,12 +1,19 @@
 # eval.py
 # evaluate RAG accuracy against known test cases
 
-from query import query_rag
+from agent import run_agent
 from dotenv import load_dotenv
 from groq import Groq
 import json
+from prompts import PROMPT_VERSION
+import os
+
 
 load_dotenv()
+
+print(f"Running eval on prompt version: {PROMPT_VERSION}")
+
+EVAL_COLLECTION = os.getenv("EVAL_COLLECTION", "tenses_notes") 
 
 # ── add your test cases here ─────────────────────────────
 test_cases = [
@@ -104,7 +111,7 @@ def run_eval():
     for i, test in enumerate(test_cases):
         print(f"\nTest {i+1}/{len(test_cases)}: {test['question']}")
 
-        actual = query_rag(test["question"])
+        actual, _ = run_agent(test["question"], EVAL_COLLECTION)
         is_correct, reason = evaluate_with_llm(
             test["question"],
             test["expected"],

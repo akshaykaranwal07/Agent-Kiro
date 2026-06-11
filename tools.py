@@ -47,13 +47,18 @@ def search_web(query: str) -> str:
 
 
 def get_tools(collection_name: str):
-    return {
-        "search_notes": {
-            "function": lambda q: search_notes(q, collection_name),
-            "description": "Search the user's uploaded PDF notes. Use for questions about the document content."
-        },
+    tools = {
         "search_web": {
             "function": search_web,
-            "description": "Search the web for current information, facts, or anything not in the uploaded document."
+            "description": "Search the web for current information, facts, general knowledge."
         }
     }
+
+    # only add search_notes if collection exists
+    if collection_name:
+        tools["search_notes"] = {
+            "function": lambda q: search_notes(q, collection_name),
+            "description": "Search the user's uploaded PDF. Use for questions about the document content."
+        }
+
+    return tools

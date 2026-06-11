@@ -426,9 +426,8 @@ if (!tabId) {
 
         try {
             const formData = new FormData();
-            formData.append('file', file);
-            formData.append('tab_id', tabId); // include tab_id in the upload request
-            const r = await fetch('/upload', { method: 'POST', body: formData });
+             // include tab_id in the upload request
+            const r = await fetch('/upload', { method: 'POST', body: ({file:file, tab_id:tabId}) });
             const d = await r.json();
             clearInterval(interval);
 

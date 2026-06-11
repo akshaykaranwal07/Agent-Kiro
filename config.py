@@ -6,7 +6,7 @@ PDF_NAME = "notes"  # change this to your PDF filename (without .pdf)
 import os
 
 #PDF_PATH        = f"data/{PDF_NAME}.pdf"
-#COLLECTION_NAME = PDF_NAME.lower().replace(" ", "_")
+COLLECTION_NAME = PDF_NAME.lower().replace(" ", "_")
 EXTRACTED_DIR   = "extracted"
 CHROMA_PATH     = "./chroma_db"
 POPPLER_PATH    = r"C:\poppler\Library\bin"

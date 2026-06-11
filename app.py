@@ -10,6 +10,7 @@ import uvicorn
 import shutil
 import uuid
 import os
+from prompts import SUMMARY_PROMPT
 
 os.environ["ANONYMIZED_TELEMETRY"] = "False"
 os.environ["CHROMA_TELEMETRY"] = "False"
@@ -84,22 +85,20 @@ async def upload_pdf(
 async def ask(q: Question):
     session_key = q.tab_id
 
+    # if no PDF uploaded — still allow web search
     if not session_key or session_key not in sessions:
-        return {
-            "answer":    "Please upload a PDF first.",
-            "tool_used": "",
-            "status":    "no_pdf"
-        }
+        try:
+            answer, tool_used = run_agent(
+                q.question,
+                None,        # no collection
+                []           # empty history
+            )
+            return {"answer": answer, "tool_used": tool_used, "status": "ok"}
+        except Exception as e:
+            return {"answer": f"Error: {str(e)}", "tool_used": "", "status": "error"}
 
+    # PDF uploaded — use session
     user_session = sessions[session_key]
-
-    if not user_session["ready"]:
-        return {
-            "answer":    "Please upload a PDF first.",
-            "tool_used": "",
-            "status":    "no_pdf"
-        }
-
     try:
         answer, tool_used = run_agent(
             q.question,
@@ -107,10 +106,8 @@ async def ask(q: Question):
             user_session["history"]
         )
         return {"answer": answer, "tool_used": tool_used, "status": "ok"}
-
     except Exception as e:
         return {"answer": f"Error: {str(e)}", "tool_used": "", "status": "error"}
-
 
 @app.post("/clear")
 async def clear(req: ClearRequest):
@@ -122,6 +119,11 @@ async def clear(req: ClearRequest):
 @app.get("/status")
 async def status():
     return {"active_sessions": len(sessions)}
+
+
+def is_summary_request(question: str) -> bool:
+    keywords = ["summarize", "summary", "overview", "what is this about", "main topics", "key points"]
+    return any(kw in question.lower() for kw in keywords)
 
 
 if __name__ == "__main__":

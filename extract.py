@@ -55,7 +55,6 @@ def extract_text_from_pdf(pdf_path: str, output_dir: str = "extracted") -> list:
     for i, page in enumerate(doc):
         print(f"Page {i+1}/{total}...")
 
-        # try direct text first
         text = page.get_text().strip()
         print(f"  raw text length: {len(text)}")
 
@@ -63,34 +62,34 @@ def extract_text_from_pdf(pdf_path: str, output_dir: str = "extracted") -> list:
             print(f"  direct extraction — {len(text)} chars")
 
         else:
-            # always use vision if no text found
             print(f"  vision OCR...")
             mat      = fitz.Matrix(2.0, 2.0)
             pix      = page.get_pixmap(matrix=mat)
             img_path = f"{output_dir}/temp_page_{i+1}.jpg"
             pix.save(img_path)
 
-        try:
-            text = extract_page_with_vision(img_path)
-            print(f"  vision done — {len(text)} chars")
-            time.sleep(2)
+            try:
+                text = extract_page_with_vision(img_path)
+                print(f"  vision done — {len(text)} chars")
+                time.sleep(2)
 
-        except Exception as e:
-            print(f"  vision failed: {e}")
-            text = f"[EXTRACTION FAILED FOR PAGE {i+1}]"
+            except Exception as e:
+                print(f"  vision failed: {e}")
+                text = f"[EXTRACTION FAILED FOR PAGE {i+1}]"
 
-        if os.path.exists(img_path):
-            os.remove(img_path)
+            # cleanup INSIDE else — only runs when vision was used
+            if os.path.exists(img_path):
+                os.remove(img_path)
 
         all_text.append(text)
 
         with open(f"{output_dir}/page_{i+1}.txt", "w", encoding="utf-8") as f:
             f.write(text)
 
-    page_count = len(doc)
-    doc.close()
-    print(f"\nDone! {page_count} pages extracted.")
-    return all_text
+        page_count = len(doc)
+        doc.close()
+        print(f"\nDone! {page_count} pages extracted.")
+        return all_text
 
 
 if __name__ == "__main__":
