@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiro — Eval Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f9f9f7; color: #111; padding: 24px; }
+        .header { max-width: 900px; margin: 0 auto 24px; display: flex; align-items: center; justify-content: space-between; }
+        .header h1 { font-size: 18px; font-weight: 500; }
+        .header a { font-size: 13px; color: #185FA5; text-decoration: none; }
+        .grid { max-width: 900px; margin: 0 auto; display: grid; gap: 16px; }
+        .metric-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        .metric { background: #fff; border: 0.5px solid #e8e8e6; border-radius: 10px; padding: 16px; text-align: center; }
+        .metric-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+        .metric-value { font-size: 24px; font-weight: 500; }
+        .card { background: #fff; border: 0.5px solid #e8e8e6; border-radius: 10px; padding: 20px; }
+        .card-title { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px; }
+        .cat-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .cat-label { font-size: 13px; width: 180px; flex-shrink: 0; }
+        .bar-wrap { flex: 1; background: #f0f0f0; border-radius: 4px; height: 8px; overflow: hidden; }
+        .bar { height: 100%; border-radius: 4px; }
+        .cat-pct { font-size: 12px; color: #888; width: 40px; text-align: right; }
+        .test-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 0; border-bottom: 0.5px solid #f0f0f0; }
+        .test-row:last-child { border-bottom: none; }
+        .badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; flex-shrink: 0; margin-top: 1px; font-weight: 500; }
+        .badge.pass { background: #EAF3DE; color: #27500A; }
+        .badge.fail { background: #FCEBEB; color: #791F1F; }
+        .test-q { font-size: 13px; color: #111; flex: 1; }
+        .test-meta { font-size: 11px; color: #aaa; margin-top: 2px; }
+        .test-reason { font-size: 12px; color: #888; margin-top: 4px; font-style: italic; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .version-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid #f0f0f0; }
+        .version-row:last-child { border-bottom: none; }
+        .ver-tag { font-size: 12px; font-weight: 500; width: 50px; }
+        .ver-score { font-size: 13px; font-weight: 500; width: 44px; }
+        .ver-bar-wrap { flex: 1; background: #f0f0f0; border-radius: 4px; height: 6px; overflow: hidden; }
+        .ver-bar { height: 100%; border-radius: 4px; background: #185FA5; }
+        .ver-note { font-size: 11px; color: #aaa; }
+        .trend { font-size: 11px; padding: 2px 6px; border-radius: 4px; flex-shrink: 0; }
+        .trend.up { background: #EAF3DE; color: #27500A; }
+        .trend.down { background: #FCEBEB; color: #791F1F; }
+        .trend.same { background: #f0f0f0; color: #888; }
+        .loading { text-align: center; color: #888; padding: 40px; }
+        @media (max-width: 600px) {
+            .metric-row { grid-template-columns: repeat(2, 1fr); }
+            .two-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>kiro · eval dashboard</h1>
+    <a href="/">← back to kiro</a>
+</div>
+
+<div class="grid" id="dashboard">
+    <div class="loading">Loading eval results...</div>
+</div>
+
+<script>
+async function loadDashboard() {
+    const res  = await fetch('/eval-results');
+    const data = await res.json();
+
+    if (data.error) {
+        document.getElementById('dashboard').innerHTML = `<div class="loading">${data.error}</div>`;
+        return;
+    }
+
+    const results        = data.results || [];
+    const totalScore     = Math.round(data.total_score || 0);
+    const categoryScores = data.category_scores || {};
+    const passed         = results.filter(r => r.correct).length;
+    const total          = results.length;
+    const collection     = data.collection || "—";
+
+    const scoreColor = totalScore >= 80 ? '#3B6D11' : totalScore >= 60 ? '#854F0B' : '#A32D2D';
+
+    // version history — hardcoded for now, will grow over time
+    const versions = [
+        { ver: "v0.9", score: 70,  note: "baseline vanilla RAG",          trend: "baseline" },
+        { ver: "v1.0", score: totalScore, note: "prompt eng + query rewriting", trend: "+10%" },
+        { ver: "v1.1", score: null, note: "context eng + reranking",       trend: "upcoming" },
+    ];
+
+    document.getElementById('dashboard').innerHTML = `
+
+        <div class="metric-row">
+            <div class="metric">
+                <div class="metric-label">overall score</div>
+                <div class="metric-value" style="color:${scoreColor}">${totalScore}%</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">tests passed</div>
+                <div class="metric-value">${passed}/${total}</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">prompt version</div>
+                <div class="metric-value" style="font-size:16px">${data.prompt_version || "v1.0"}</div>
+            </div>
+            <div class="metric">
+                <div class="metric-label">collection</div>
+                <div class="metric-value" style="font-size:13px;margin-top:4px">${collection}</div>
+            </div>
+        </div>
+
+        <div class="two-col">
+            <div class="card">
+                <div class="card-title">score by category</div>
+                ${Object.entries(categoryScores).map(([cat, counts]) => {
+                    const pct   = Math.round((counts.correct / counts.total) * 100);
+                    const color = pct >= 80 ? '#3B6D11' : pct >= 50 ? '#854F0B' : '#A32D2D';
+                    return `
+                        <div class="cat-row">
+                            <div class="cat-label">${cat.replace(/_/g, ' ')}</div>
+                            <div class="bar-wrap">
+                                <div class="bar" style="width:${pct}%;background:${color}"></div>
+                            </div>
+                            <div class="cat-pct">${pct}%</div>
+                        </div>`;
+                }).join('')}
+            </div>
+
+            <div class="card">
+                <div class="card-title">version history</div>
+                ${versions.map(v => `
+                    <div class="version-row">
+                        <div class="ver-tag">${v.ver}</div>
+                        <div class="ver-score" style="color:${v.score ? (v.score >= 80 ? '#3B6D11' : '#854F0B') : '#aaa'}">${v.score ? v.score + '%' : 'TBD'}</div>
+                        <div class="ver-bar-wrap">
+                            <div class="ver-bar" style="width:${v.score || 0}%"></div>
+                        </div>
+                        <div class="ver-note">${v.note}</div>
+                        <div class="trend ${v.trend === 'upcoming' ? 'same' : v.trend.startsWith('+') ? 'up' : 'same'}">${v.trend}</div>
+                    </div>`).join('')}
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">test results — ${passed} passed · ${total - passed} failed</div>
+            ${results.map(r => `
+                <div class="test-row">
+                    <span class="badge ${r.correct ? 'pass' : 'fail'}">${r.correct ? 'PASS' : 'FAIL'}</span>
+                    <div style="flex:1">
+                        <div class="test-q">${r.question}</div>
+                        <div class="test-meta">${r.category || '—'} · ${r.tool_used || '—'}</div>
+                        <div class="test-reason">${r.reason || ''}</div>
+                    </div>
+                </div>`).join('')}
+        </div>
+    `;
+}
+
+loadDashboard();
+</script>
+
+</body>
+</html>

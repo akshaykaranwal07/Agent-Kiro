@@ -90,9 +90,14 @@ def decide_tool(question: str, tools: dict, history: list = None) -> tuple:
 
     try:
         result = json.loads(raw)
-        return result["tool"], result["reason"]
-    except:
-        return "search_notes", "defaulting to notes"
+        tool_name = result["tool"]
+        if tool_name not in tools:
+            fallback = "search_web" if "search_web" in tools else next(iter(tools))
+            return fallback, f"requested tool '{tool_name}' unavailable, falling back to {fallback}"
+        return tool_name, result["reason"]
+    except Exception:
+        fallback = "search_web" if "search_web" in tools else next(iter(tools))
+        return fallback, f"defaulting to {fallback}"
 
 
 def answer_question(question: str, context: str, tool_used: str, history: list = None, use_cot: bool = False) -> str:

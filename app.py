@@ -71,6 +71,22 @@ class ClearRequest(BaseModel):
     tab_id: Optional[str] = None
 
 
+
+# app.py — add this route
+@app.get("/eval", response_class=HTMLResponse)
+async def eval_dashboard():
+    with open("templates/eval_dashboard.html", "r", encoding="utf-8") as f:
+        return f.read()
+
+@app.get("/eval-results")
+async def eval_results():
+    try:
+        with open("eval_results.json", "r") as f:
+            return json.load(f)
+    except:
+        return {"error": "No eval results found. Run eval.py first."}
+
+
 @app.get("/stats")
 async def get_stats():
     """Return visitor analytics (public endpoint)"""

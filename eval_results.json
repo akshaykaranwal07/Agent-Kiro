@@ -1,72 +1,115 @@
-[
-  {
-    "question": "What are the four aspects of tenses?",
-    "expected": "Indefinite, Continuous, Perfect, Perfect Continuous",
-    "actual": "The four aspects of tenses are: \n- Simple \n- Continuous (also known as Progressive) \n- Perfect \n- Perfect Continuous.",
-    "correct": false,
-    "reason": "missing 'indefinite', provided 'simple' instead"
+{
+  "collection": "tenses_notes",
+  "prompt_version": "v1.0",
+  "total_score": 80.0,
+  "category_scores": {
+    "factual": {
+      "correct": 4,
+      "total": 5
+    },
+    "grounding": {
+      "correct": 1,
+      "total": 2
+    },
+    "web_routing": {
+      "correct": 2,
+      "total": 2
+    },
+    "vague_query": {
+      "correct": 1,
+      "total": 1
+    }
   },
-  {
-    "question": "What is the indefinite aspect used for?",
-    "expected": "Permanent, frequently, general information",
-    "actual": "The indefinite aspect is used to describe facts and habits. It is also used to talk about actions in a general or open-ended manner, expressing general truths and habitual actions. According to the sources, it is commonly used for these purposes.",
-    "correct": true,
-    "reason": "minor wording differences, conveys same information"
-  },
-  {
-    "question": "What is the continuous aspect used for?",
-    "expected": "Temporary, incomplete, ongoing action",
-    "actual": "The continuous aspect is used to express an ongoing, but not habitual, occurrence of the state or event expressed by the verb. It is an imperfective aspect that describes an action that is in progress. According to the sources, it does not typically describe habitual behavior, although one source notes that the present perfect continuous can be used for habitual behavior over time. The continuous aspect is used to convey that something is happening at a specific point in time.",
-    "correct": true,
-    "reason": "minor wording differences and extra information"
-  },
-  {
-    "question": "What is the perfect aspect used for?",
-    "expected": "Completed action, degree of work done",
-    "actual": "The perfect aspect is used to \"connect a past situation to a later time\" and to emphasize the relationship between a past event and its relevance to the present or another reference point. It highlights a result that matters now, an experience up to now, or a state that has continued to now. The perfect aspect serves to emphasize various aspects of verbs, connecting completed actions to distinct temporal contexts.",
-    "correct": true,
-    "reason": "actual provides more detailed explanation"
-  },
-  {
-    "question": "What is perfect continuous aspect?",
-    "expected": "Partially incomplete and partially complete action",
-    "actual": "The perfect progressive aspect, also known as the \"perfect continuing aspect\", is the aspect of a verb that expresses the end of an ongoing action. It is used to talk about something that started in the past and continues up to the present moment. According to the sources, it combines the auxiliary verbs \"have\" and \"be\" to form the perfect continuous tenses. The perfect continuous aspect can describe repeated actions and express the length of time of an action.",
-    "correct": false,
-    "reason": "missing key information about action being partially incomplete and partially complete"
-  },
-  {
-    "question": "What is tense?",
-    "expected": "Time of action, state happening, possession or degree of an action",
-    "actual": "Tense is defined as the \"Time of action, state happening, possession or degree of an action\". It relates to various aspects including voices, narrations, and the mood of the speaker. The context also mentions different types of tenses and verb forms, such as present continuous and stative verbs.",
-    "correct": true,
-    "reason": "Minor wording differences and extra information"
-  },
-  {
-    "question": "What is the V2 past form of go?",
-    "expected": "went",
-    "actual": "The V2 past form of \"go\" is \"went\".",
-    "correct": true,
-    "reason": "minor wording difference"
-  },
-  {
-    "question": "What is the V3 perfect form of run?",
-    "expected": "run",
-    "actual": "The V\u00b3 Perfect form of \"Run\" is \"Run\".",
-    "correct": true,
-    "reason": "minor wording differences"
-  },
-  {
-    "question": "What is the V4 continuous form of come?",
-    "expected": "coming",
-    "actual": "The V\u2074 continuous form of \"come\" is \"Coming\".",
-    "correct": true,
-    "reason": "minor wording difference"
-  },
-  {
-    "question": "What is the V5 singular form of explain?",
-    "expected": "explains",
-    "actual": "To answer this question, let's follow the steps:\n\nStep 1 - Understand what's being asked: \nWe need to find the V5 (V\u00b9+ses) Singular form of the verb \"explain\".\n\nStep 2 - Find relevant information in the context:\nThe relevant information can be found in the table on [page_2.txt], which lists various verb forms, including the V5 Singular form.\n\nStep 3 - Formulate a clear answer:\nLooking at the table, we find the row for the verb \"explain\". The V5 (V\u00b9+ses) Singular form for \"explain\" is listed as \"Explains\".\n\nStep 4 - Check if the answer directly addresses the question:\nYes, the answer directly addresses the question by providing the V5 Singular form of the verb \"explain\".\n\nThe final answer is: Explains.",
-    "correct": true,
-    "reason": "Minor case difference"
-  }
-]
+  "results": [
+    {
+      "question": "What are the four aspects of tenses?",
+      "category": "factual",
+      "expected": "Indefinite, Continuous, Perfect, Perfect Continuous",
+      "actual": "The four aspects of tenses are: \n- simple\n- continuous\n- perfect\n- perfect continuous.",
+      "tool_used": "search_web",
+      "correct": false,
+      "reason": "missing key information: 'indefinite' instead given as 'simple'"
+    },
+    {
+      "question": "What is the indefinite aspect used for?",
+      "category": "factual",
+      "expected": "Permanent, frequently, general information",
+      "actual": "The indefinite aspect is used to express a fact. It is also used to group all verbs (past, present, and future) in the indefinite tenses. The term \"indefinite aspect\" is occasionally referred to as the \"simple aspect\". It is used to express a fact, similar to the simple aspect.",
+      "tool_used": "search_web",
+      "correct": true,
+      "reason": "Minor wording differences, extra information provided"
+    },
+    {
+      "question": "What is the continuous aspect used for?",
+      "category": "factual",
+      "expected": "Temporary, incomplete, ongoing action",
+      "actual": "The continuous aspect is used for something that is happening before and after a specific time. It expresses an ongoing action or a state that is incomplete. According to the sources, it indicates that the action takes place over time and is either ongoing or will take a while to complete.",
+      "tool_used": "search_web",
+      "correct": true,
+      "reason": "minor wording differences and extra information"
+    },
+    {
+      "question": "What is the perfect aspect used for?",
+      "category": "factual",
+      "expected": "Completed action, degree of work done",
+      "actual": "The perfect aspect is used to \"connect a past situation to a later time\" and to look back from a specific time and talk about things up to that time or about things that are important at that time. It highlights a relationship, such as \"a result that matters now, an experience up to now, or a state that has continued to now.\" The perfect aspect is used to emphasize various aspects of verbs, connecting completed actions to distinct temporal contexts.",
+      "tool_used": "search_web",
+      "correct": true,
+      "reason": "Minor wording differences, conveys completed action"
+    },
+    {
+      "question": "What is tense?",
+      "category": "factual",
+      "expected": "Time of action, state happening, possession or degree of an action",
+      "actual": "Tense is defined as the \"Time of action, state happening, possession or degree of an action\". It involves various aspects such as voices, narrations, and the mood of the speaker. The context also mentions different types of tenses, including present continuous and immediate future action.",
+      "tool_used": "search_notes",
+      "correct": true,
+      "reason": "Minor wording differences and extra information"
+    },
+    {
+      "question": "What is the author's phone number?",
+      "category": "grounding",
+      "expected": "I couldn't find that in the provided content.",
+      "actual": "I couldn't find that in the provided content.",
+      "tool_used": "search_notes",
+      "correct": true,
+      "reason": "contains expected phrase"
+    },
+    {
+      "question": "What happened on 15th March 2045?",
+      "category": "grounding",
+      "expected": "I couldn't find that in the provided content.",
+      "actual": "According to the provided context, on June 15, 2045, books, movies, and other works published in 1949 will enter the public domain in the United States. However, for March 15, 2045, it is mentioned that a flyby of the ice giant will occur, but the specific details are not provided in the given context for that exact date. The calendar for March 2045 shows March 15 as a Friday.",
+      "tool_used": "search_web",
+      "correct": false,
+      "reason": "missing expected phrase \u2014 possible hallucination"
+    },
+    {
+      "question": "Who is the current Prime Minister of India?",
+      "category": "web_routing",
+      "expected": "Narendra Modi",
+      "actual": "The current Prime Minister of India is Narendra Modi. He has been serving as the prime minister since 26 May 2014, and was sworn-in for the third time on 9th June 2024.",
+      "tool_used": "search_web",
+      "correct": true,
+      "reason": "contains 'Narendra Modi'"
+    },
+    {
+      "question": "What year was Python created?",
+      "category": "web_routing",
+      "expected": "1991",
+      "actual": "Python was first released on February 20, 1991. It was created by Guido van Rossum. The language was initially released this year, marking the beginning of its development.",
+      "tool_used": "search_web",
+      "correct": true,
+      "reason": "contains '1991'"
+    },
+    {
+      "question": "What is the V2 past form of go?",
+      "category": "vague_query",
+      "expected": "went",
+      "actual": "The V2 past form of \"go\" is \"went\".",
+      "tool_used": "search_web",
+      "correct": true,
+      "reason": "contains 'went'"
+    }
+  ]
+}
