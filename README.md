@@ -1,61 +1,73 @@
-# Kiro — Chat With Any Document
+# Kiro — Your Personal AI Knowledge Base
 
-Kiro is an agentic RAG (Retrieval-Augmented Generation) application that lets you upload any PDF and have an intelligent conversation with it. It combines semantic search over your document with live web search to answer any question.
+> Upload anything. Ask anything. Actually learn from it.
 
-![Python](https://img.shields.io/badge/Python-3.11-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-Latest-green)
-![License](https://img.shields.io/badge/License-MIT-yellow)
-![Deployed](https://img.shields.io/badge/Deployed-Railway-purple)
+Kiro is an agentic RAG application built from scratch — no LangChain, no shortcuts. Chat with any PDF, get answers from the web, and watch it get smarter with every improvement.
+
+![Python](https://img.shields.io/badge/Python-3.11-blue?style=flat)
+![FastAPI](https://img.shields.io/badge/FastAPI-Latest-green?style=flat)
+![Deployed](https://img.shields.io/badge/Deployed-Railway-purple?style=flat)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=flat)
 
 ---
 
 ## Live Demo
 
-🔗 [your-railway-url.up.railway.app](https://your-railway-url.up.railway.app)
+🔗 **[https://agent-kiro-production.up.railway.app/]**
 
 ---
 
-## Features
+## What Kiro Does
+Upload any PDF → Kiro reads it, chunks it, embeds it
 
-- **Upload any PDF** — handwritten notes, textbooks, research papers, resumes
-- **Agentic routing** — automatically decides whether to search your document or the web
-- **Vision-based OCR** — reads handwritten and scanned PDFs using Groq LLaMA-4 Vision
-- **Semantic search** — finds relevant content by meaning, not just keywords
-- **Conversation memory** — remembers context across follow-up questions
-- **Clean chat UI** — sidebar layout, suggested questions, source attribution
-- **Mobile responsive** — works on any device
+Ask a question → Kiro decides: search your document or the web?
 
----
+Get an answer  → grounded, accurate, cited
 
-## Demo
-
-Upload any PDF → Ask anything → Kiro decides where to look
-
-"What are the main topics in this document?"  →  searches your PDF
-"Who is the current Prime Minister of India?" →  searches the web
-"Give me examples of what you just explained" →  remembers context
+Works on typed PDFs, scanned documents, and handwritten notes.
 
 ---
 
 ## How It Works
-
 Upload PDF
+
 ↓
-PyMuPDF converts pages to images
+
+PyMuPDF extracts text directly (typed PDFs)
+
+Groq LLaMA-4 Vision reads scanned/handwritten pages
+
 ↓
-Groq LLaMA-4 Vision extracts text (handles handwriting)
+
+Structure-aware chunking by concept blocks
+
 ↓
-Text split into concept-aware chunks
+
+Sentence Transformers embed chunks → ChromaDB stores vectors
+
 ↓
-Chunks embedded using Sentence Transformers
+
+User asks question
+
 ↓
-Stored in ChromaDB vector database
+
+Query rewriting → vague questions become specific search queries
+
 ↓
-Agent routes your question:
-├── ChromaDB  → if question is about your document
-└── Web search → if question needs current information
+
+Agent routes: search notes OR search web
+
 ↓
-Groq LLaMA 3.3 generates grounded answer
+
+Retrieved chunks reranked by relevance
+
+↓
+
+Groq LLaMA generates grounded answer
+
+↓
+
+Answer with source attribution
 
 ---
 
@@ -75,37 +87,149 @@ Groq LLaMA 3.3 generates grounded answer
 
 ---
 
+## Engineering Layers
+
+### ✅ Layer 1 — Core RAG Pipeline
+PDF ingestion → smart extraction (direct text + vision OCR fallback)
+
+Structure-aware chunking → concept block splitting
+
+Dense embeddings → ChromaDB vector storage
+
+Semantic retrieval → cosine similarity search
+
+Agentic routing → LLM decides notes vs web
+
+Conversation memory → per-user session history
+
+### ✅ Layer 2 — Prompt Engineering
+Versioned prompt system → every prompt change tracked (v1.0+)
+
+Query rewriting → transforms vague questions before retrieval
+
+Personal signal detection → protects document queries from over-rewriting
+
+Chain of thought → auto-detected for complex comparison questions
+
+Temperature control → 0.0 routing (deterministic), 0.1 answers (precise)
+
+Structured output prompts → consistent answer formatting
+
+### ✅ Layer 3 — Evaluation Framework
+General eval suite → tests behavior not content, works on any PDF
+
+4 test categories → factual, grounding, web routing, instruction following
+
+3 eval types → exact match, contains, LLM-as-judge
+
+Category-based scoring → pinpoints exactly what to improve
+
+Baseline tracking → 80% accuracy on v1.0 prompts
+
+### ✅ Layer 4 — Sessions and Multi-User
+Tab-level sessions → sessionStorage per browser tab
+
+Per-user isolation → each tab has own PDF and conversation history
+
+No shared state → laptop and mobile fully independent
+
+Graceful degradation → web search works without PDF upload
+
+### 🔄 Layer 5 — Context Engineering 
+Metadata filtering → chunks know their page number
+
+Reranking → retrieved chunks reordered by relevance
+
+Lost in the middle fix → best chunks at start and end of context
+
+Parent-child chunking → retrieve small, send parent for context
+
+Hybrid search → semantic + keyword (BM25) combined
+
+### ⬜ Layer 6 — Caching and Reliability
+Semantic caching → similar questions return cached answers
+
+Exponential backoff → rate limit handling with retries
+
+Model fallback chain → Groq fails → Gemini fallback
+
+Request timeout handling → user-friendly error on slow responses
+
+Token usage tracking → cost per query logged
+
+### ⬜ Layer 7 — Observability
+Langfuse tracing → every LLM call, tool call, retrieval step visible
+
+Structured logging → question, tool used, answer, latency per request
+
+Latency tracking → time each pipeline step
+
+Error tracking → all failures caught and logged with context
+
+### ⬜ Layer 8 — Advanced RAG
+Query rewriting V2 → multi-query retrieval (3 versions, merge results)
+
+HyDE → hypothetical document embeddings for better chunk matching
+
+Self-RAG → model decides when to retrieve vs answer from memory
+
+RAGAS evaluation → faithfulness, relevance, recall metrics
+
+Automated regression testing → eval runs on every deploy
+
+### ⬜ Layer 9 — Product Features
+Streaming responses → answers appear word by word
+
+Multi-document support → upload multiple PDFs, search across all
+
+YouTube + URL ingestion → chat with any content not just PDFs
+
+Quiz mode → Kiro asks YOU questions from your material
+
+Flashcard generation → auto-create study cards from document
+
+Progress tracking → what you know, what you don't
+
+### ⬜ Layer 10 — Production Hardening
+User authentication → accounts with persistent sessions
+
+CI/CD → GitHub Actions auto-test and deploy on push
+
+Docker optimization → smaller image, faster cold start
+
+Rate limiting → per-user request limits
+
+Cost optimization → token usage minimization
+
+---
+
 ## Local Setup
 
 ### Prerequisites
-
 - Python 3.11+
 - Groq API key — free at [console.groq.com](https://console.groq.com)
 
 ### Installation
 
 ```bash
-# clone the repo
-git clone https://github.com/yourusername/vanilla-RAG.git
-cd vanilla-RAG
+git clone https://github.com/reloaddd/Agent-Kiro.git
+cd Vanillia-RAG
 
-# create virtual environment
 python -m venv venv
+venv\Scripts\activate        # Windows
+source venv/bin/activate     # Mac/Linux
 
-# activate — Windows
-venv\Scripts\activate
-
-# activate — Mac/Linux
-source venv/bin/activate
-
-# install dependencies
 pip install -r requirements.txt
 ```
 
 ### Environment Variables
 
-Create a `.env` file in the root directory:
-GROQ_API_KEY=your-groq-api-key-here
+```bash
+# .env
+GROQ_API_KEY=your-groq-key
+GEMINI_API_KEY=your-gemini-key
+EVAL_COLLECTION=tenses_notes
+```
 
 ### Run
 
@@ -117,32 +241,41 @@ Open `http://localhost:8000`
 
 ---
 
-## Usage
-
-1. Open Kiro in your browser
-2. Upload any PDF using the sidebar — click or drag and drop
-3. Wait for processing (speed depends on PDF size and pages)
-4. Ask anything about your document or any general question
-5. Kiro automatically routes to the right source and answers
-
----
-
 ## Project Structure
 vanilla-RAG/
+
 │
+
 ├── templates/
-│   └── index.html          # chat UI — sidebar layout, mobile responsive
+
+│   └── index.html          # Kiro chat UI
+
 │
-├── app.py                  # FastAPI server — upload, ask, clear endpoints
-├── agent.py                # routing agent — tool selection + memory
-├── tools.py                # search_notes and search_web tools
-├── extract.py              # PDF → images → text via Groq vision
-├── chunk_embed.py          # chunking + embeddings + ChromaDB storage
-├── config.py               # central configuration
+
+├── app.py                  # FastAPI — upload, ask, sessions
+
+├── agent.py                # routing agent + memory
+
+├── tools.py                # search_notes + search_web
+
+├── extract.py              # PDF → text (direct + vision)
+
+├── chunk_embed.py          # chunking + embeddings + ChromaDB
+
+├── prompts.py              # versioned prompts (v1.0)
+
+├── eval.py                 # general eval suite
+
+├── config.py               # configuration
+
 │
-├── Dockerfile              # production Docker config
-├── railway.toml            # Railway deployment config
-├── requirements.txt        # Python dependencies
+
+├── Dockerfile              # Railway deployment
+
+├── railway.toml            # Railway config
+
+├── requirements.txt
+
 └── .gitignore
 
 ---
@@ -151,82 +284,95 @@ vanilla-RAG/
 
 | Method | Endpoint | Description |
 |---|---|---|
-| GET | `/` | Serves chat UI |
-| POST | `/upload` | Upload and process a PDF file |
-| POST | `/ask` | Send a question, get an answer |
+| GET | `/` | Kiro chat UI |
+| POST | `/upload` | Upload and process PDF |
+| POST | `/ask` | Ask a question |
 | POST | `/clear` | Clear conversation history |
-| GET | `/status` | Check current session status |
+| GET | `/status` | Active session count |
 
-### Example
+---
 
-```bash
-# upload a PDF
-curl -X POST "http://localhost:8000/upload" \
-  -F "file=@your_document.pdf"
+## Eval Results
 
-# ask a question
-curl -X POST "http://localhost:8000/ask" \
-  -H "Content-Type: application/json" \
-  -d '{"question": "What are the main topics?"}'
-```
+| Version | Score | Notes |
+|---|---|---|
+| baseline | 70% | vanilla retrieval |
+| v1.0 | 80% | prompt engineering + query rewriting |
+| v1.1 | TBD | context engineering + reranking |
+| v2.0 | TBD | advanced RAG + HyDE |
 
 ---
 
 ## Deployment
 
-Kiro is production-ready and deploys on Railway with zero configuration.
+### Railway (one click)
 
-### Deploy on Railway
+1. Fork this repo
+2. Connect to [railway.app](https://railway.app)
+3. Add environment variables
+4. Deploy — Railway detects Dockerfile automatically
 
-1. Fork this repository
-2. Go to [railway.app](https://railway.app) and create a new project
-3. Connect your forked GitHub repository
-4. Add environment variable: `GROQ_API_KEY`
-5. Railway auto-detects the Dockerfile and deploys
-
-### Deploy with Docker
+### Docker
 
 ```bash
 docker build -t kiro .
-docker run -p 8000:8000 -e GROQ_API_KEY=your-key kiro
+docker run -p 8000:8000 \
+  -e GROQ_API_KEY=your-key \
+  kiro
 ```
 
 ---
 
 ## What I Learned Building This
+→ RAG pipeline from scratch — no frameworks, understand every line
 
-- Built a complete RAG pipeline from scratch — no LangChain, no shortcuts
-- Understood why things fail — chunking, retrieval quality, context limits
-- Implemented agentic tool routing — how LLMs decide which tool to use
-- Vision-based OCR pipeline for handwritten document processing
-- Vector similarity search, embedding models, and semantic retrieval
-- RAG evaluation using LLM-as-judge scoring (achieved 90% accuracy)
-- Full-stack AI application — FastAPI backend, vanilla JS frontend
-- Production deployment with Docker on Railway
+→ Vision OCR for handwritten and scanned documents
+
+→ Agentic tool routing — LLM decides what to do next
+
+→ Prompt engineering that's measurable not just felt
+
+→ Why evals matter — adding query rewriting dropped score 30%
+
+→ Per-user session isolation — production multi-user patterns
+
+→ Full stack AI deployment — FastAPI, Docker, Railway
+
+→ The difference between "it feels better" and "it scores better"
 
 ---
 
 ## Roadmap
 
-- [ ] Streaming responses (word by word like ChatGPT)
-- [ ] Multiple concurrent PDF sessions
+- [x] Vanilla RAG pipeline
+- [x] Vision OCR
+- [x] Agentic routing
+- [x] Prompt engineering + query rewriting
+- [x] Eval framework
+- [x] Per-user sessions
+- [ ] Context engineering + reranking
+- [ ] Semantic caching
+- [ ] Observability with Langfuse
+- [ ] Advanced RAG (HyDE, Self-RAG)
+- [ ] Streaming responses
+- [ ] Multi-document support
+- [ ] Quiz mode + flashcards
 - [ ] User authentication
-- [ ] Parent-child chunk retrieval for better accuracy
-- [ ] Support PDF (work in progress for other formats)
-- [ ] Conversation history persistence
 
 ---
 
 ## Contributing
 
-Pull requests are welcome. For major changes please open an issue first.
+Pull requests welcome. Open an issue first for major changes.
 
 ---
 
 ## License
 
-MIT License — free to use, modify, and distribute.
+MIT — free to use, modify, distribute.
 
 ---
 
-<p align="center">Built by <a href="https://github.com/akshaykaranwal07">Akshay</a> — AI Engineer</p>
+<p align="center">
+Built by <a href="https://github.com/reloaddd">Akshay</a> · AI Engineer in the making · Building in public
+</p>
